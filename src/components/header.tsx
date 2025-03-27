@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react"
 function Header() {
     return (
         <>
-            <header className="bg-white px-12 py-4 flex items-center justify-between border-b border-zinc-200">
+            <header className="bg-white w-full px-12 py-4 flex items-center justify-between border-b border-zinc-200">
                 <Image
                     src="/logo-iris.svg"
                     alt="Íris"

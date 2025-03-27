@@ -22,14 +22,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${fontInter.variable} antialiased`}
+        className={`${fontInter.variable} antialiased flex flex-col gap-22`}
       >
-        <div>
+        <div className="w-full">
           <Header />
           <Navbar />
         </div>
-        
-        {children}
+        <main className="flex justify-center">
+        <div className="w-full max-w-[1360px]">
+          {children}
+        </div>
+        </main>
       </body>
     </html>
   );
