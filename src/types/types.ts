@@ -14,3 +14,8 @@ export interface AHTChartData {
     date?: string
     aht: number
 }
+
+export interface TicketCardsData {
+    totalTickets: number
+    todayTickets: number
+}
