@@ -9,3 +9,8 @@ export interface EmotionScoreChartData {
     score: number
     tickets?: number
 }
+
+export interface AHTChartData {
+    date?: string
+    aht: number
+}
