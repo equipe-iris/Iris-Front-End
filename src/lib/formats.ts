@@ -7,7 +7,7 @@ function formatToCategoryChart(data: CategoryChartData[]): CategoryChartData[] {
         .map(item => ({
             category: item.category,
             value: item.value,
-            fill: `var(--color-${item.category}`
+            fill: `var(--color-${item.category})`
         }));
 
 }
