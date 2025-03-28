@@ -19,3 +19,8 @@ export interface TicketCardsData {
     totalTickets: number
     todayTickets: number
 }
+
+export interface FrequentTermsData {
+    term: string
+    count: number
+}

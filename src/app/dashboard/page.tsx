@@ -2,6 +2,7 @@ import { CategoryChart } from "@/features/(dashboard)/classification/components/
 import { EmotionScoreChart } from "@/features/(dashboard)/classification/components/emotion-score-chart"
 import { EmotionScoreEvolutionChart } from "@/features/(dashboard)/classification/components/emotion-score-evolution-chart"
 import { AverageTimeHandlingChart } from "@/features/(dashboard)/components/average-handling-time-chart"
+import FrequentTermsCard from "@/features/(dashboard)/components/frequent-terms-card"
 import TodaysTicketsCard from "@/features/(dashboard)/components/todays-tickets-card"
 import TotalTicketsCard from "@/features/(dashboard)/components/total-tickets-card"
 
@@ -14,7 +15,8 @@ export default function DashboardPage() {
                 <TotalTicketsCard totalTickets={100} />
                 {/* <div className="bg-blue-500 min-h-[300px] rounded-lg shadow-lg col-span-1 row-span-4"></div> */}
                 <EmotionScoreChart />
-                <div className="bg-yellow-500 min-h-[300px] rounded-lg shadow-lg col-span-1 row-span-6"></div>
+                {/* <div className="bg-yellow-500 min-h-[300px] rounded-lg shadow-lg col-span-1 row-span-6"></div> */}
+                <FrequentTermsCard />
                 {/* <div className="bg-cyan-500 min-h-[150px] rounded-lg shadow-lg row-span-2"></div> */}
                 <TodaysTicketsCard todayTickets={10} />
                 {/* <div className="bg-slate-500 min-h-[300px] rounded-lg shadow-lg col-span-2 row-span-4"></div> */}

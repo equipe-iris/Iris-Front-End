@@ -19,7 +19,7 @@ import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { getColorByScore, getScoreMessage } from "@/lib/utils"
 
 const chartData = [
-    { score: 45, tickets: 29, fill: "var(--color-score)" },
+    { score: 77, tickets: 29, fill: "var(--color-score)" },
 ]
 
 const score = chartData[0].score
