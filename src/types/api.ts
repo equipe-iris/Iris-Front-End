@@ -3,4 +3,4 @@ export interface DateRange {
     end_date: string
 }
 
-export type TimeRange = "today" | "7d" | "30d"
+export type TimeRange = "today" | "7d" | "30d" | "90d"

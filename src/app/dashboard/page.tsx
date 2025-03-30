@@ -21,10 +21,10 @@ export default function DashboardPage() {
             <div className="grid grid-cols-4 grid-rows-12 gap-5">
                 <TotalTicketsCard />
                 <EmotionScoreChart />
-                <FrequentTermsCard />
+                <CategoryChart />
                 <TodaysTicketsCard />
                 <EmotionScoreEvolutionChart />
-                <CategoryChart />
+                <FrequentTermsCard />
                 <AverageTimeHandlingChart />
             </div>
         </div>

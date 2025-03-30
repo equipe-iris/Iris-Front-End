@@ -1,10 +1,11 @@
 "use client"
 
-import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts"
+import React from "react"
 
+import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts"
 import {
     Card,
-    CardContent, CardHeader,
+    CardContent, CardDescription, CardHeader,
     CardTitle
 } from "@/components/ui/card"
 import {
@@ -13,14 +14,17 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-    { date: "23/03", score: 89 },
-    { date: "24/03", score: 80 },
-    { date: "25/03", score: 81 },
-    { date: "26/03", score: 65 },
-    { date: "27/03", score: 67 },
-    { date: "28/03", score: 43 }
-]
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { TimeRange } from "@/types/api"
+import { useEmotionScoreEvolution } from "../api/get-emotion-score-evolution"
+// const chartData = [
+//     { date: "23/03", score: 89 },
+//     { date: "24/03", score: 80 },
+//     { date: "25/03", score: 81 },
+//     { date: "26/03", score: 65 },
+//     { date: "27/03", score: 67 },
+//     { date: "28/03", score: 43 }
+// ]
 
 const chartConfig = {
     score: {
@@ -30,10 +34,35 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function EmotionScoreEvolutionChart() {
+
+    const [timeRange, setTimeRange] = React.useState<TimeRange>("7d")
+
+    const emotionScoreTrendQuery = useEmotionScoreEvolution(timeRange)
+    const chartData = emotionScoreTrendQuery.data
+
     return (
         <Card className="col-span-3 row-span-4">
-            <CardHeader>
-                <CardTitle>Evolução da satisfação dos clientes</CardTitle>
+            <CardHeader className="flex items-center justify-between pb-0">
+                <div className="grid gap-1">
+                    <CardTitle>Tendência de Satisfação do Cliente</CardTitle>
+                    <CardDescription>Evolução do score de satisfação dos clientes ao longo do tempo</CardDescription>
+                </div>
+                <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
+                    <SelectTrigger className="w-[160px] rounded-lg">
+                        <SelectValue placeholder="Hoje" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl">
+                        <SelectItem value="7d" className="rounded-lg">
+                            Últimos 7 dias
+                        </SelectItem>
+                        <SelectItem value="30d" className="rounded-lg">
+                            Últimos 30 dias
+                        </SelectItem>
+                        <SelectItem value="90d" className="rounded-lg">
+                            Últimos 90 dias	
+                        </SelectItem>
+                    </SelectContent>
+                </Select>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig} className="w-full max-h-[260px]">

@@ -6,12 +6,11 @@ const frequentTermsMock: FrequentTermsData[] = [
     { term: "erro", count: 18 },
     { term: "senha", count: 15 },
     { term: "acesso", count: 12 },
-    { term: "sistema", count: 10 },
 ]
 
 export function FrequentTermsCard() {
     return (
-        <Card className="col-span-1 row-span-6 flex flex-col gap-10 p-6">
+        <Card className="col-span-1 row-span-4 flex flex-col gap-10 p-6">
             <CardHeader className="px-0">
                 <CardTitle>Termos mais frequentes</CardTitle>
                 <CardDescription>Palavras-chave que aparecem com frequência nos chamados.</CardDescription>
