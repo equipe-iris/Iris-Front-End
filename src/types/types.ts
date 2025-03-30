@@ -1,6 +1,6 @@
 export interface CategoryChartData {
     category: string
-    value: number
+    quantity: number
     fill?: string
 }
 
