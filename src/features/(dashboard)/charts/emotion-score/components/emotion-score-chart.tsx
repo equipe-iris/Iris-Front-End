@@ -44,7 +44,7 @@ export function EmotionScoreChart() {
         },
     } satisfies ChartConfig), [chartColor])
 
-    if (scoreQuery.isLoading) {
+    if (scoreQuery.isLoading || scoreQuery.isFetching) {
         return (
             <Card className="flex flex-col col-span-2 row-span-4">
                 <CardHeader className="items-center pb-0">

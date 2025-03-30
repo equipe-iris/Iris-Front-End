@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/chart"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useAHT } from "../api/get-average-time-handling"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const chartConfig = {
     average_time: {
@@ -27,6 +28,25 @@ export function AverageTimeHandlingChart() {
 
     const ahtQuery = useAHT()
     const chartData = ahtQuery.data
+
+    if (ahtQuery.isLoading || ahtQuery.isFetching) {
+        return (
+            <Card className="flex flex-col col-span-4 row-span-4">
+                <CardHeader className="items-center pb-0">
+                    <Skeleton className="h-6 w-1/3" />
+                    <Skeleton className="h-6 w-1/2" />
+                </CardHeader>
+                <CardContent className="flex-1 pb-0">
+                    <ChartContainer
+                        config={chartConfig}
+                        className="mx-auto aspect-square max-h-[250px]"
+                    >
+                        <Skeleton className="h-full w-full" />
+                    </ChartContainer>
+                </CardContent>
+            </Card>
+        )
+    }
 
     return (
         <Card className="col-span-4 row-span-4">
