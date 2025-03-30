@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Navbar } from "@/components/navbar";
+import AppProvider from "./provider";
 
 const fontInter = Inter({
   variable: "--font-inter",
@@ -24,15 +25,17 @@ export default function RootLayout({
       <body
         className={`${fontInter.variable} antialiased flex flex-col gap-22`}
       >
-        <div className="w-full">
-          <Header />
-          <Navbar />
-        </div>
-        <main className="flex justify-center">
-        <div className="w-full max-w-[1360px]">
-          {children}
-        </div>
-        </main>
+        <AppProvider>
+          <div className="w-full">
+            <Header />
+            <Navbar />
+          </div>
+          <main className="flex justify-center">
+            <div className="w-full max-w-[1360px]">
+              {children}
+            </div>
+          </main>
+        </AppProvider>
       </body>
     </html>
   );
