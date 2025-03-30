@@ -9,7 +9,7 @@ const frequentTermsMock: FrequentTermsData[] = [
     { term: "sistema", count: 10 },
 ]
 
-export default function FrequentTermsCard() {
+export function FrequentTermsCard() {
     return (
         <Card className="col-span-1 row-span-6 flex flex-col gap-10 p-6">
             <CardHeader className="px-0">

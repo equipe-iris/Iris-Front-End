@@ -7,7 +7,7 @@ interface TodaysTicketsCardProps {
     todayTickets: number
 }
 
-export default function TodaysTicketsCard({ todayTickets }: TodaysTicketsCardProps) {
+export function TodaysTicketsCard({ todayTickets }: TodaysTicketsCardProps) {
     return (
         <Card className="col-span-1 row-span-2 flex px-8 py-4 gap-8 justify-center">
             <div className="flex gap-5 ">

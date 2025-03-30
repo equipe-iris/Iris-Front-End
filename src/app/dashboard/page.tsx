@@ -1,10 +1,18 @@
-import { CategoryChart } from "@/features/(dashboard)/classification/components/category-chart"
-import { EmotionScoreChart } from "@/features/(dashboard)/classification/components/emotion-score-chart"
-import { EmotionScoreEvolutionChart } from "@/features/(dashboard)/classification/components/emotion-score-evolution-chart"
-import { AverageTimeHandlingChart } from "@/features/(dashboard)/components/average-handling-time-chart"
-import FrequentTermsCard from "@/features/(dashboard)/components/frequent-terms-card"
-import TodaysTicketsCard from "@/features/(dashboard)/components/todays-tickets-card"
-import TotalTicketsCard from "@/features/(dashboard)/components/total-tickets-card"
+import {
+    AverageTimeHandlingChart,
+    CategoryChart,
+    EmotionScoreChart,
+    EmotionScoreEvolutionChart,
+    FrequentTermsCard,
+    TodaysTicketsCard,
+    TotalTicketsCard
+} from "@/features/(dashboard)";
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Íris - Dashboard",
+    description: "Dashboard de análise de chamados",
+};
 
 export default function DashboardPage() {
     return (
@@ -12,7 +20,7 @@ export default function DashboardPage() {
             <h1 className="text-2xl font-medium text-zinc-800 mb-8">Dashboard</h1>
             <div className="grid grid-cols-3 grid-rows-12 gap-5">
                 {/* <div className="bg-red-500 min-h-[150px] rounded-lg shadow-lg col-span-1 row-span-2"></div> */}
-                <TotalTicketsCard totalTickets={100} />
+                <TotalTicketsCard />
                 {/* <div className="bg-blue-500 min-h-[300px] rounded-lg shadow-lg col-span-1 row-span-4"></div> */}
                 <EmotionScoreChart />
                 {/* <div className="bg-yellow-500 min-h-[300px] rounded-lg shadow-lg col-span-1 row-span-6"></div> */}

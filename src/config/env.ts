@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import 'dotenv/config';
+// import 'dotenv/config';
 
 function createEnv() {
     const EnvSchema = z.object({
@@ -7,7 +7,7 @@ function createEnv() {
     })
 
     const envVars = {
-        API_URL: process.env.API_URL
+        API_URL: process.env.NEXT_PUBLIC_API_URL
     }
 
     const parsedEnv = EnvSchema.safeParse(envVars)
