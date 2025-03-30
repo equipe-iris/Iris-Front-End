@@ -7,7 +7,8 @@ export interface CategoryChartData {
 export interface EmotionScoreChartData {
     date?: string
     score: number
-    tickets?: number
+    ticket_count?: number
+    fill?: string
 }
 
 export interface AHTChartData {

@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import {
     Label,
     PolarGrid,
@@ -17,27 +18,43 @@ import {
 } from "@/components/ui/card"
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { getColorByScore, getScoreMessage } from "@/lib/utils"
-
-const chartData = [
-    { score: 77, tickets: 29, fill: "var(--color-score)" },
-]
-
-const score = chartData[0].score
-const chartColor = getColorByScore(score)
-const endAngle = (score / 100) * 360
-const scoreMessage = getScoreMessage(score)
-
-const chartConfig = {
-    tickets: {
-        label: "Chamados",
-    },
-    score: {
-        label: "Satisfação",
-        color: chartColor,
-    },
-} satisfies ChartConfig
+import { useEmotionScore } from "../api/get-emotion-score"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export function EmotionScoreChart() {
+
+    const scoreQuery = useEmotionScore()
+    const scoreData = scoreQuery.data || []
+    const score = scoreQuery.data ? scoreQuery.data[0].score : 0
+
+    const chartColor = getColorByScore(score)
+    const endAngle = (score / 100) * 360
+    const scoreMessage = getScoreMessage(score)
+
+    const chartConfig = useMemo(() => ({
+        score: {
+            label: "Satisfação",
+            color: chartColor,
+        },
+    } satisfies ChartConfig), [chartColor])
+
+    if (scoreQuery.isLoading) {
+        return (
+            <Card className="flex flex-col col-span-1 row-span-4">
+                <CardHeader className="items-center pb-0">
+                    <Skeleton className="h-6 w-1/3" />
+                </CardHeader>
+                <CardContent className="flex-1 pb-0">
+                    <ChartContainer
+                        config={chartConfig}
+                        className="mx-auto aspect-square max-h-[250px]"
+                    >
+                        <Skeleton className="h-full w-full" />
+                    </ChartContainer>
+                </CardContent>
+            </Card>
+        )
+    }
 
     return (
         <Card className="flex flex-col col-span-1 row-span-4">
@@ -50,7 +67,7 @@ export function EmotionScoreChart() {
                     className="mx-auto aspect-square max-h-[250px]"
                 >
                     <RadialBarChart
-                        data={chartData}
+                        data={scoreData}
                         endAngle={endAngle}
                         innerRadius={80}
                         outerRadius={140}
@@ -79,7 +96,7 @@ export function EmotionScoreChart() {
                                                     y={viewBox.cy}
                                                     className="fill-foreground text-4xl font-bold"
                                                 >
-                                                    {chartData[0].score.toLocaleString()}
+                                                    {score.toLocaleString()}
                                                 </tspan>
                                                 <tspan
                                                     x={viewBox.cx}
