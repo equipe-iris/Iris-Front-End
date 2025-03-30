@@ -12,8 +12,8 @@ export interface EmotionScoreChartData {
 }
 
 export interface AHTChartData {
-    date?: string
-    aht: number
+    date: string
+    average_time: number
 }
 
 export interface TicketCardsData {

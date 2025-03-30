@@ -2,7 +2,7 @@
 
 import React from "react"
 
-import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts"
+import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts"
 import {
     Card,
     CardContent, CardDescription, CardHeader,
@@ -59,13 +59,13 @@ export function EmotionScoreEvolutionChart() {
                             Últimos 30 dias
                         </SelectItem>
                         <SelectItem value="90d" className="rounded-lg">
-                            Últimos 90 dias	
+                            Últimos 90 dias
                         </SelectItem>
                     </SelectContent>
                 </Select>
             </CardHeader>
             <CardContent>
-                <ChartContainer config={chartConfig} className="w-full max-h-[260px]">
+                <ChartContainer config={chartConfig} className="w-full max-h-[300px]">
                     <LineChart
                         accessibilityLayer
                         data={chartData}
@@ -76,11 +76,30 @@ export function EmotionScoreEvolutionChart() {
                         }}
                     >
                         <CartesianGrid vertical={false} />
+                        <YAxis
+                            domain={[0, 100]}
+                            axisLine={false}
+                            tickLine={false}
+                            tickMargin={10}
+                            label={{
+                                value: "Satisfação",
+                                angle: -90,
+                                position: "insideLeft",
+                                style: { textAnchor: "middle" },
+                            }}
+                        />
                         <XAxis
                             dataKey="date"
                             tickLine={false}
                             axisLine={false}
-                        //tickFormatter={(value) => value.slice(0, 3)}
+                            tickMargin={10}
+                            tickFormatter={(value) => {
+                                const date = new Date(value)
+                                return date.toLocaleDateString("pt-BR", {
+                                    month: "numeric",
+                                    day: "numeric",
+                                })
+                            }}
                         />
                         <ChartTooltip
                             cursor={false}
