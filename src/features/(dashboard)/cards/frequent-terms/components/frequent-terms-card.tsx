@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FrequentTermsData } from "@/types/types";
+import { FrequentTermsData } from "@/types/charts";
 
 const frequentTermsMock: FrequentTermsData[] = [
     { term: "login", count: 25 },

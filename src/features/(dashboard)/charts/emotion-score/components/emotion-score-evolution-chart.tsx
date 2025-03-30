@@ -31,7 +31,7 @@ const chartConfig = {
 
 export function EmotionScoreEvolutionChart() {
     return (
-        <Card className="col-span-2 row-span-4">
+        <Card className="col-span-3 row-span-4">
             <CardHeader>
                 <CardTitle>Evolução da satisfação dos clientes</CardTitle>
             </CardHeader>

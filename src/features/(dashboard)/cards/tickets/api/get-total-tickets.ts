@@ -1,6 +1,6 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
-import { TicketCardsData } from "@/types/types";
+import { TicketCardsData } from "@/types/charts";
 
 function getTotalTickets(): Promise<TicketCardsData> {
     return api.get(`/dashboard/cards`)

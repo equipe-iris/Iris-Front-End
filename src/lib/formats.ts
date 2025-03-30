@@ -1,4 +1,4 @@
-import { CategoryChartData, EmotionScoreChartData } from "@/types/types";
+import { CategoryChartData, EmotionScoreChartData } from "@/types/charts";
 
 function formatToCategoryChart(data: CategoryChartData[] | undefined): CategoryChartData[] {
     if (!data || data == undefined) return [];

@@ -6,6 +6,6 @@ export const queryConfig = {
         refetchOnReconnect: true,
         refetchInterval: 1000 * 60 * 2, // 2 minutes
         retry: false,
-        staleTime: 1000 * 60 * 2, 
+        staleTime: 1000 * 60 * 2
     }
 } satisfies DefaultOptions

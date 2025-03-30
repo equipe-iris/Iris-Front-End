@@ -72,7 +72,7 @@ const chartConfig = {
 export function AverageTimeHandlingChart() {
 
     return (
-        <Card className="col-span-2 row-span-4">
+        <Card className="col-span-3 row-span-4">
             <CardHeader>
                 <CardTitle>Tempo médio de atendimento</CardTitle>
             </CardHeader>

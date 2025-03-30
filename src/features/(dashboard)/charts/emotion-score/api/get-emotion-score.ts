@@ -1,25 +1,31 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
-import { EmotionScoreChartData } from "@/types/types";
+import { EmotionScoreChartData } from "@/types/charts";
 import { formatToEmotionScoreChart } from "@/lib/formats";
+import { getDateRange } from "@/lib/utils";
+import { TimeRange } from "@/types/api";
 
-async function getEmotionScore(): Promise<EmotionScoreChartData[]> {
+async function getEmotionScore(timeRange: TimeRange): Promise<EmotionScoreChartData[]> {
+    const { start_date, end_date } = getDateRange(timeRange);
     const response = await api.get<EmotionScoreChartData>(`/dashboard/satisfaction-score`, {
         params: {
-            start_date: "2023-01-01",
-            end_date: "2025-03-30"
+            start_date: start_date,
+            end_date: end_date
         }
     });
     return formatToEmotionScoreChart(response);
 }
 
-function getEmotionScoreQueryOptions() {
+function getEmotionScoreQueryOptions(timeRange: TimeRange) {
     return queryOptions({
-        queryKey: ["emotion-score"],
-        queryFn: getEmotionScore,
+        queryKey: ["emotion-score", timeRange],
+        queryFn: () => getEmotionScore(timeRange),
     })
 }
 
-export function useEmotionScore() {
-    return useQuery(getEmotionScoreQueryOptions())
+export function useEmotionScore(timeRange: TimeRange) {
+    return useQuery({
+        ...getEmotionScoreQueryOptions(timeRange),
+        placeholderData: [{ score: 0, ticket_count: 0, fill: "var(--color-score)" }],
+    })
 }

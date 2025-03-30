@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import React from "react"
 import {
     Label,
     PolarGrid,
@@ -12,6 +12,7 @@ import {
 import {
     Card,
     CardContent,
+    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,
@@ -20,18 +21,23 @@ import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { getColorByScore, getScoreMessage } from "@/lib/utils"
 import { useEmotionScore } from "../api/get-emotion-score"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { TimeRange } from "@/types/api"
 
 export function EmotionScoreChart() {
 
-    const scoreQuery = useEmotionScore()
+    const [timeRange, setTimeRange] = React.useState<TimeRange>("today")
+
+    const scoreQuery = useEmotionScore(timeRange)
     const scoreData = scoreQuery.data || []
     const score = scoreQuery.data ? scoreQuery.data[0].score : 0
+    const totalTickets = scoreQuery.data ? scoreQuery.data[0].ticket_count : 0
 
     const chartColor = getColorByScore(score)
     const endAngle = (score / 100) * 360
     const scoreMessage = getScoreMessage(score)
 
-    const chartConfig = useMemo(() => ({
+    const chartConfig = React.useMemo(() => ({
         score: {
             label: "Satisfação",
             color: chartColor,
@@ -40,7 +46,7 @@ export function EmotionScoreChart() {
 
     if (scoreQuery.isLoading) {
         return (
-            <Card className="flex flex-col col-span-1 row-span-4">
+            <Card className="flex flex-col col-span-2 row-span-4">
                 <CardHeader className="items-center pb-0">
                     <Skeleton className="h-6 w-1/3" />
                 </CardHeader>
@@ -57,9 +63,28 @@ export function EmotionScoreChart() {
     }
 
     return (
-        <Card className="flex flex-col col-span-1 row-span-4">
-            <CardHeader className="items-center pb-0">
-                <CardTitle>Satisfação dos clientes</CardTitle>
+        <Card className="flex flex-col col-span-2 row-span-4">
+            <CardHeader className="flex items-center justify-between pb-0">
+                <div className="grid gap-1">
+                    <CardTitle>Satisfação dos clientes</CardTitle>
+                    <CardDescription>Análise de um total de {totalTickets} chamados</CardDescription>
+                </div>
+                <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
+                    <SelectTrigger className="w-[160px] rounded-lg">
+                        <SelectValue placeholder="Hoje" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl">
+                        <SelectItem value="today" className="rounded-lg">
+                            Hoje
+                        </SelectItem>
+                        <SelectItem value="7d" className="rounded-lg">
+                            Últimos 7 dias
+                        </SelectItem>
+                        <SelectItem value="30d" className="rounded-lg">
+                            Últimos 30 dias
+                        </SelectItem>
+                    </SelectContent>
+                </Select>
             </CardHeader>
             <CardContent className="flex-1 pb-0">
                 <ChartContainer
