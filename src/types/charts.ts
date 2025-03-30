@@ -1,23 +1,24 @@
 export interface CategoryChartData {
     category: string
-    value: number
+    quantity: number
     fill?: string
 }
 
 export interface EmotionScoreChartData {
     date?: string
     score: number
-    tickets?: number
+    ticket_count?: number
+    fill?: string
 }
 
 export interface AHTChartData {
-    date?: string
-    aht: number
+    date: string
+    average_time: number
 }
 
 export interface TicketCardsData {
-    totalTickets: number
-    todayTickets: number
+    total_tickets: number
+    tickets_today: number
 }
 
 export interface FrequentTermsData {

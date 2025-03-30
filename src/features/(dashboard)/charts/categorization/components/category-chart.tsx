@@ -4,12 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import React from "react";
 import { Label, Pie, PieChart } from "recharts";
-
-const categoryMockData = [
-    { category: "duvida", value: 10, fill: "var(--color-duvida)" },
-    { category: "reclamacao", value: 2, fill: "var(--color-reclamacao)" },
-    { category: "suporte", value: 12, fill: "var(--color-suporte)" }
-]
+import { useTicketsCategories } from "../api/get-tickets-categorization";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const chartConfig = {
     tickets: {
@@ -31,12 +27,33 @@ const chartConfig = {
 
 function CategoryChart() {
 
+    const ticketsCategoriesQuery = useTicketsCategories()
+    const ticketsCategories = ticketsCategoriesQuery.data
+
     const totalTickets = React.useMemo(() => {
-        return categoryMockData.reduce((acc, curr) => acc + curr.value, 0)
-    }, [])
+        return ticketsCategories?.reduce((acc, curr) => acc + curr.quantity, 0) || 0
+    }, [ticketsCategories])
+
+    if (ticketsCategoriesQuery.isLoading) {
+        return (
+            <Card className="flex flex-col rounded-lg shadow-lg col-span-1 row-span-4">
+                <CardHeader className="items-center pb-0">
+                    <Skeleton className="h-8 w-1/3" />
+                </CardHeader>
+                <CardContent className="flex-1 pb-0">
+                    <ChartContainer
+                        config={chartConfig}
+                        className="mx-auto aspect-square max-h-[250px]"
+                    >
+                        <Skeleton className="h-full w-full" />
+                    </ChartContainer>
+                </CardContent>
+            </Card>
+        )
+    }
 
     return (
-        <Card className="min-h-[300px] flex flex-col rounded-lg shadow-lg col-span-1 row-span-4">
+        <Card className="flex flex-col rounded-lg shadow-lg col-span-1 row-span-4">
             <CardHeader className="items-center pb-0">
                 <CardTitle>Chamados por Categoria</CardTitle>
             </CardHeader>
@@ -51,8 +68,8 @@ function CategoryChart() {
                             content={<ChartTooltipContent hideLabel />}
                         />
                         <Pie
-                            data={categoryMockData}
-                            dataKey="value"
+                            data={ticketsCategories}
+                            dataKey="quantity"
                             nameKey="category"
                             innerRadius={60}
                             strokeWidth={5}
