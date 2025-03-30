@@ -1,9 +1,9 @@
 "use client"
 
-import { Card } from "@/components/ui/card";
-import { TicketSlash } from "lucide-react";
 import { useTotalTickets } from "../api/get-total-tickets";
+import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TicketSlash } from "lucide-react";
 
 
 export function TotalTicketsCard() {

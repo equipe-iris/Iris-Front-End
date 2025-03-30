@@ -26,7 +26,7 @@ export default function DashboardPage() {
                 {/* <div className="bg-yellow-500 min-h-[300px] rounded-lg shadow-lg col-span-1 row-span-6"></div> */}
                 <FrequentTermsCard />
                 {/* <div className="bg-cyan-500 min-h-[150px] rounded-lg shadow-lg row-span-2"></div> */}
-                <TodaysTicketsCard todayTickets={10} />
+                <TodaysTicketsCard />
                 {/* <div className="bg-slate-500 min-h-[300px] rounded-lg shadow-lg col-span-2 row-span-4"></div> */}
                 <EmotionScoreEvolutionChart />
                 {/* <div className="bg-teal-500 min-h-[300px] rounded-lg shadow-lg col-span-1 row-span-4"></div> */}
