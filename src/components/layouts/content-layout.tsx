@@ -12,7 +12,7 @@ export default function ContentLayout({ children }: ContentLayoutProps) {
                 <Header />
                 <Navbar />
             </div>
-            <main className="flex justify-center">
+            <main className="flex justify-center pb-8">
                 <div className="w-full max-w-[1360px]">
                     {children}
                 </div>

@@ -49,7 +49,7 @@ export function EmotionScoreEvolutionChart() {
                 </div>
                 <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
                     <SelectTrigger className="w-[160px] rounded-lg">
-                        <SelectValue placeholder="Hoje" />
+                        <SelectValue placeholder="Últimos 7 dias" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl">
                         <SelectItem value="7d" className="rounded-lg">
