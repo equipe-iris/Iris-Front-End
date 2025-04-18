@@ -1,22 +1,23 @@
 "use client"
 
 import { cn, formatBytes } from "@/lib/utils";
-import { FileText, Upload, X } from "lucide-react";
+import { CircleCheck, CircleX, FileText, LoaderCircle, Upload, X } from "lucide-react";
 import { useCallback, useState } from "react";
 import Dropzone, { FileRejection, type DropzoneProps } from "react-dropzone";
 import { toast } from "sonner";
-import { Progress } from "./ui/progress";
 import { Button } from "./ui/button";
 
 interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
     value?: File[];
     onChangeValue?: (files: File[]) => void;
     onUpload?: (files: File[]) => void;
-    progress?: Record<string, number>;
     accept?: DropzoneProps["accept"];
     maxSize?: DropzoneProps["maxSize"];
     maxFiles?: DropzoneProps["maxFiles"];
     multiple?: boolean;
+    loading?: boolean;
+    error?: boolean;
+    success?: boolean;
     disabled?: boolean;
 }
 
@@ -24,11 +25,13 @@ function FileUploader({
     value,
     onChangeValue,
     //onUpload,
-    progress,
     accept = {},
     maxSize = 1024 * 1024 * 2,
     maxFiles = 1,
     multiple = false,
+    loading = false,
+    error = false,
+    success = false,
     disabled = false,
     className,
     ...dropzoneProps
@@ -130,7 +133,9 @@ function FileUploader({
                                 key={index}
                                 file={file}
                                 onRemove={() => onRemove(index)}
-                                progress={progress?.[file.name]}
+                                loading={loading}
+                                error={error}
+                                success={success}
                             />
                         ))}
                     </div>
@@ -145,38 +150,63 @@ export { FileUploader };
 interface FileCardProps {
     file: File
     onRemove: () => void
-    progress?: number
+    loading?: boolean
+    error?: boolean
+    success?: boolean
 }
 
-function FileCard({ file, progress, onRemove }: FileCardProps) {
+function FileCard({ file, loading, error, success, onRemove }: FileCardProps) {
     return (
         <div className="relative flex items-center gap-2.5">
-            <div className="flex flex-1 gap-2.5">
-                <FileText className="size-10 text-muted-foreground" aria-hidden="true" />
-                <div className="flex w-full flex-col gap-2">
-                    <div className="flex flex-col gap-px">
-                        <p className="line-clamp-1 text-sm font-medium text-foreground/80">
-                            {file.name}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                            {formatBytes(file.size)}
-                        </p>
+            <div className="flex flex-col flex-1 gap-4">
+                <div className="flex flex-1 gap-2.5">
+                    <FileText className="size-10 text-muted-foreground" aria-hidden="true" />
+                    <div className="flex w-full flex-col gap-2">
+                        <div className="flex flex-col gap-px">
+                            <p className="line-clamp-1 text-sm font-medium text-foreground/80">
+                                {file.name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                                {formatBytes(file.size)}
+                            </p>
+                        </div>
                     </div>
-                    {progress ? <Progress value={progress} /> : null}
                 </div>
+                {loading && (
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground font-medium">
+                        <LoaderCircle className="size-5 animate-spin" />
+                        <span>Carregando...</span>
+                    </div>
+                )}
+                {error && (
+                    <div className="flex items-center gap-2 text-sm text-red-500 font-medium">
+                        <CircleX className="size-5" />
+                        <span>Erro</span>
+                    </div>
+                )}
+                {success && (
+                    <div className="flex items-center gap-2 text-sm text-emerald-500 font-medium">
+                        <CircleCheck className="size-5" />
+                        <span>Arquivo importado</span>
+                    </div>
+                )}
             </div>
-            <div className="flex items-center gap-2">
-                <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="size-7"
-                    onClick={onRemove}
-                >
-                    <X className="size-4" aria-hidden="true" />
-                    <span className="sr-only">Remove file</span>
-                </Button>
-            </div>
+            {
+                !loading && (
+                    <div className="flex self-start gap-2">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            className="size-7"
+                            onClick={onRemove}
+                        >
+                            <X className="size-4" aria-hidden="true" />
+                            <span className="sr-only">Remove file</span>
+                        </Button>
+                    </div>
+                )
+            }
         </div>
     )
 }

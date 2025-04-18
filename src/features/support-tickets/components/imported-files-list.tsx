@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatBytes } from "@/lib/utils";
 import { FileText } from "lucide-react";
 
-const FILES_MOCK = [
+const FILES_MOCK: FileCardProps[] = [
     { name: "Chamados Porto.csv", size: 123456, upload_date: "10/01/2023" },
     { name: "Exportar Jira 20230210", size: 234567, upload_date: "10/02/2023" },
     { name: "Chamados x", size: 345678, upload_date: "10/03/2023" },
@@ -33,7 +33,7 @@ export function ImportedFilesList() {
     )
 }
 
-interface FileCardProps {
+export interface FileCardProps {
     name: string;
     size: number;
     upload_date: string;

@@ -28,13 +28,13 @@ async function fetchApi<T>(url: string, options: RequestOptions = {}): Promise<T
     const { method = 'GET', headers, body, params } = options;
     const fullUrl = buildUrlWithParams(`${env.API_URL}${url}`, params);
 
+    const isFormData = body instanceof FormData;
+    const finalHeaders = isFormData ? headers : { 'Content-Type': 'application/json', ...headers };
+
     const response = await fetch(fullUrl, {
         method,
-        headers: {
-            'Content-Type': 'application/json',
-            ...headers,
-        },
-        body: body ? JSON.stringify(body) : undefined,
+        headers: finalHeaders,
+        body: isFormData ? body : body ? JSON.stringify(body) : undefined,
     })
 
     if (!response.ok) {
@@ -48,5 +48,8 @@ async function fetchApi<T>(url: string, options: RequestOptions = {}): Promise<T
 export const api = {
     get <T>(url: string, options?: RequestOptions): Promise<T> {
         return fetchApi<T>(url, { ...options, method: 'GET' });
-    }
+    },
+    post <T>(url: string, body: any, options?: RequestOptions): Promise<T> {
+        return fetchApi<T>(url, { ...options, method: 'POST', body });
+    },
 }

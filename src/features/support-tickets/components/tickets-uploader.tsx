@@ -1,17 +1,12 @@
 "use client"
 
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { FileUploader } from '@/components/file-uploader';
 import { Button } from '@/components/ui/button';
-
-const ticketsUploadSchema = z.object({
-    tickets: z.array(z.instanceof(File))
-})
-
-type TicketsUploadSchema = z.infer<typeof ticketsUploadSchema>;
+import { ticketsUploadSchema, TicketsUploadSchema, useUploadTicketsFile } from '../api/upload-files';
+import { toast } from 'sonner';
 
 
 export function TicketsUploader() {
@@ -19,13 +14,36 @@ export function TicketsUploader() {
         resolver: zodResolver(ticketsUploadSchema),
         defaultValues: {
             tickets: []
-        }
+        },
+        mode: 'onSubmit'
     });
 
+    const uploadTicketsFileMutation = useUploadTicketsFile({
+        mutationConfig: {
+            onSuccess: () => {
+                toast.success('Chamados importados com sucessso!')
+            },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onError: (error: any) => {
+                toast.error(error?.erro || 'Erro ao importar chamados. Verifique o arquivo e tente novamente.');
+                console.log(error);
+            },
+        }
+    })
+
+    const isLoading = uploadTicketsFileMutation.isPending
+    const isError = uploadTicketsFileMutation.isError
+    const isSuccess = uploadTicketsFileMutation.isSuccess
+
     function onSubmit(data: TicketsUploadSchema) {
-        console.log(data.tickets);
+        uploadTicketsFileMutation.mutate({ data })
     }
-    
+
+    function handleFileChange(files: File[]) {
+        form.setValue("tickets", files, { shouldValidate: true });
+        uploadTicketsFileMutation.reset();
+    }
+
     return (
         <Form {...form}>
             <form
@@ -41,12 +59,13 @@ export function TicketsUploader() {
                             <FormControl>
                                 <FileUploader
                                     value={field.value}
-                                    accept={{['text/csv']: ['.csv']}}
-                                    onChangeValue={field.onChange}
+                                    accept={{ ['text/csv']: ['.csv'] }}
+                                    onChangeValue={handleFileChange}
                                     maxFiles={1}
                                     maxSize={1024 * 1024 * 5}
-                                    //progress={progress}
-                                    //disabled
+                                    loading={isLoading}
+                                    error={isError}
+                                    success={isSuccess}
                                 />
                             </FormControl>
                             <FormMessage />
