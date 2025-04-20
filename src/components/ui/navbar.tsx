@@ -7,12 +7,12 @@ function Navbar() {
             <NavItem
                 icon={<ChartLine size={20} />}
                 label="Dashboard"
-                href="/dashboard"
+                href="/app/dashboard"
             />
             <NavItem
                 icon={<CircleUser size={20} />}
                 label="Usuários"
-                href="/users"
+                href="/app/users"
             />
         </nav>
     )

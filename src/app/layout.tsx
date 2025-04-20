@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import AppProvider from "./provider";
-import ContentLayout from "@/components/layouts/content-layout";
+import { Toaster } from "sonner";
 
 const fontInter = Inter({
   variable: "--font-inter",
@@ -16,12 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${fontInter.variable} antialiased flex flex-col gap-22`}
+        className={`${fontInter.variable} antialiased`} suppressHydrationWarning
       >
         <AppProvider>
-          <ContentLayout>
-            {children}
-          </ContentLayout>
+          {children}
+          <Toaster />
         </AppProvider>
       </body>
     </html>
