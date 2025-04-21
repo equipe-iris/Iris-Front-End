@@ -52,4 +52,7 @@ export const api = {
     post <T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
         return fetchApi<T>(url, { ...options, method: 'POST', body });
     },
+    put <T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
+        return fetchApi<T>(url, { ...options, method: 'PUT', body });
+    },
 }

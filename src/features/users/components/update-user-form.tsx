@@ -1,47 +1,47 @@
 "use client";
 
 import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod"
 
-import { createUserSchema, CreateUserSchema, useCreateUser } from "../api/create-user"
+import { updateUserSchema, UpdateUserSchema, useUpdateUser } from "../api/update-user"
+import { User } from "./users-table-columns"
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react"
 
-export function CreateUserForm() {
+interface UpdateUserFormProps {
+    user: User
+    isDisabled?: boolean
+}
 
-    const form = useForm<CreateUserSchema>({
-        resolver: zodResolver(createUserSchema),
-        defaultValues: {
-            name: "",
-            email: "",
-            role: "Viewer",
-        },
+export function UpdateUserForm({ user, isDisabled }: UpdateUserFormProps) {
+
+    const form = useForm<UpdateUserSchema>({
+        resolver: zodResolver(updateUserSchema),
+        defaultValues: user
     })
 
-    const createUserMutation = useCreateUser({
+    const updateUserMutation = useUpdateUser({
         mutationConfig: {
             onSuccess: () => {
-                form.reset()
-                toast.success("Usuário cadastrado com sucesso!")
+                toast.success("Usuário atualizado com sucesso.")
             },
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            onError: (error: any) => {
-                toast.error(`Não foi possível cadastrar o usuário: ${error}`)
+            onError: (error) => {
+                toast.error(`Não foi possível atualizar o usuário: ${error}`)
                 console.log(error)
             }
         }
     })
+    
+    const isPending = updateUserMutation.isPending
 
-    const isPending = createUserMutation.isPending
-
-    function onSubmit(data: CreateUserSchema) {
+    function onSubmit(data: UpdateUserSchema) {
         console.log(data)
-        createUserMutation.mutate(data)
+        updateUserMutation.mutate(data)
     }
 
     return (
@@ -57,7 +57,7 @@ export function CreateUserForm() {
                         <FormItem>
                             <FormLabel>Nome completo</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input {...field} disabled={isDisabled} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -70,7 +70,7 @@ export function CreateUserForm() {
                         <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input {...field} disabled={isDisabled} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -86,6 +86,7 @@ export function CreateUserForm() {
                                 <Select
                                     value={field.value}
                                     onValueChange={field.onChange}
+                                    disabled={isDisabled}
                                 >
                                     <SelectTrigger className="w-[180px] bg-white">
                                         <SelectValue placeholder="Selecione um cargo" />
@@ -102,13 +103,15 @@ export function CreateUserForm() {
                         </FormItem>
                     )}
                 />
-                <Button
-                    type="submit"
-                    className="mt-4"
-                >
-                    {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
-                    Cadastrar
-                </Button>
+                {!isDisabled && (
+                    <Button
+                        type="submit"
+                        className="mt-4"
+                    >
+                        {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
+                        Atualizar
+                    </Button>
+                )}
             </form>
         </Form>
     )

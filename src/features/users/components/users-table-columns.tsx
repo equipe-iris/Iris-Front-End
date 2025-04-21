@@ -1,8 +1,10 @@
 "use client";
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import React from "react";
+
 import { ColumnDef } from "@tanstack/react-table";
-import { EllipsisVertical, Eye, Trash2 } from "lucide-react";
+
+import UsersTableActionsCell from "./users-table-actions-cell";
 
 export type User = {
     id: string;
@@ -37,34 +39,6 @@ export const columns: ColumnDef<User>[] = [
     {
         id: "actions",
         header: () => <div className="text-center">Ações</div>,
-        cell: ({ row }) => {
-            const user = row.original;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <div className="flex items-center justify-center">
-                            <EllipsisVertical className="cursor-pointer text-muted-foreground hover:text-zinc-800" size={16} />
-                        </div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                            onClick={() => { console.log(user) }}
-                            className="flex items-center gap-2 text-sm font-medium text-zinc-700 cursor-pointer"
-                        >
-                            <Eye size={16} className="text-sm font-semibold text-zinc-700" />
-                            Visualizar
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onClick={() => { }}
-                            className="flex items-center gap-2 text-sm font-medium text-red-500 cursor-pointer hover:text-red-500"
-                        >
-                            <Trash2 size={16} className="text-sm font-semibold text-red-500" />
-                            Excluir
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )
-        }
+        cell: ({ row }) => <UsersTableActionsCell user={row.original} />,      
     },
 ]

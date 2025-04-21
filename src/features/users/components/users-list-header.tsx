@@ -17,7 +17,7 @@ export function UsersListHeader() {
                         Cadastrar
                     </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="bg-white">
                     <DialogHeader>
                         <DialogTitle>Cadastrar novo usuário</DialogTitle>
                     </DialogHeader>
