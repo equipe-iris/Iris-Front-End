@@ -90,7 +90,7 @@ function getUsers(): Promise<User[]> {
     })
 }
 
-function getUsersQueryOptions() {
+export function getUsersQueryOptions() {
     return {
         queryKey: ["users"],
         queryFn: getUsers,

@@ -25,7 +25,7 @@ export function UsersTable() {
 
     return (
         <div>
-            <div className="flex items-center py-4">
+            <div className="flex items-center mb-4">
                 <Input
                     placeholder="Pesquisar por nome, email..."
                     value={filter}
