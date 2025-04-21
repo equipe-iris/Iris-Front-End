@@ -1,10 +1,12 @@
 import React from "react";
+
 import { User } from "./users-table-columns"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { EllipsisVertical, Eye, Pencil, Trash2 } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DialogDescription } from "@radix-ui/react-dialog";
 import { UpdateUserForm } from "./update-user-form";
+import { DeleteUserDialog } from "./delete-user-dialog";
+
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { EllipsisVertical, Eye, Pencil, Trash2 } from "lucide-react";
 
 interface UsersTableActionsCellProps {
     user: User
@@ -13,6 +15,7 @@ interface UsersTableActionsCellProps {
 export default function UsersTableActionsCell({ user }: UsersTableActionsCellProps) {
     const [openView, setOpenView] = React.useState(false);
     const [openEdit, setOpenEdit] = React.useState(false);
+    const [openDelete, setOpenDelete] = React.useState(false);
 
     return (
         <>
@@ -38,7 +41,7 @@ export default function UsersTableActionsCell({ user }: UsersTableActionsCellPro
                         Editar
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() => { }}
+                        onClick={() => setOpenDelete(true)}
                         className="flex items-center gap-2 text-sm font-medium text-red-500 cursor-pointer hover:text-red-500"
                     >
                         <Trash2 size={16} className="text-sm font-semibold text-red-500" />
@@ -68,6 +71,8 @@ export default function UsersTableActionsCell({ user }: UsersTableActionsCellPro
                     <UpdateUserForm user={user} />
                 </DialogContent>
             </Dialog>
+
+            <DeleteUserDialog open={openDelete} onOpenChange={setOpenDelete} user={user} />
         </>
     );
 }

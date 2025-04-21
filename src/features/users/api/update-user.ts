@@ -2,6 +2,7 @@ import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { MutationConfig } from "@/lib/react-query";
+import { getUsersQueryOptions } from "./get-users";
 
 export const updateUserSchema = z.object({
     name: z.string().min(1, "Nome é obrigatório"),
@@ -36,7 +37,7 @@ export function useUpdateUser({ mutationConfig }: UpdateUserOptions = {}) {
     return useMutation({
         onSuccess: (data, ...args) => {
             queryClient.invalidateQueries({
-                queryKey: ["users"],
+                queryKey: getUsersQueryOptions().queryKey,
             })
             onSuccess?.(data, ...args)
         },

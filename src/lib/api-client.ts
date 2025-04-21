@@ -39,20 +39,23 @@ async function fetchApi<T>(url: string, options: RequestOptions = {}): Promise<T
 
     if (!response.ok) {
         const errorMessage = (await response.json()).detail || response.statusText;
-        throw new Error(`Error ${response.status}: ${errorMessage}`);	
+        throw new Error(`Error ${response.status}: ${errorMessage}`);
     }
 
     return response.json()
 }
 
 export const api = {
-    get <T>(url: string, options?: RequestOptions): Promise<T> {
+    get<T>(url: string, options?: RequestOptions): Promise<T> {
         return fetchApi<T>(url, { ...options, method: 'GET' });
     },
-    post <T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
+    post<T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
         return fetchApi<T>(url, { ...options, method: 'POST', body });
     },
-    put <T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
+    put<T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
         return fetchApi<T>(url, { ...options, method: 'PUT', body });
+    },
+    delete<T>(url: string, options?: RequestOptions): Promise<T> {
+        return fetchApi<T>(url, { ...options, method: 'DELETE' });
     },
 }
