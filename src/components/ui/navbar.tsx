@@ -12,7 +12,7 @@ function Navbar() {
             <NavItem
                 icon={<CircleUser size={20} />}
                 label="Usuários"
-                href="/app/users"
+                href="/app/users/list"
             />
         </nav>
     )
