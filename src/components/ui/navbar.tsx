@@ -1,5 +1,5 @@
 import { NavItem } from "./navItem"
-import { ChartLine, CircleUser } from "lucide-react"
+import { ChartLine, CircleUser, FileDown } from "lucide-react"
 
 function Navbar() {
     return (
@@ -13,6 +13,11 @@ function Navbar() {
                 icon={<CircleUser size={20} />}
                 label="Usuários"
                 href="/app/users/list"
+            />
+            <NavItem 
+                icon={<FileDown size={20} />}
+                label="Importações"
+                href="/tickets/import"
             />
         </nav>
     )
