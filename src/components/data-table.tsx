@@ -10,7 +10,8 @@ import {
     getPaginationRowModel,
     ColumnFiltersState,
     getFilteredRowModel,
-    SortingState
+    SortingState,
+    getSortedRowModel
 } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -25,7 +26,7 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({ columns, data, filterColumn, filterValue }: DataTableProps<TData, TValue>) {
 
-    const [sorting] = React.useState<SortingState>([])
+    const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
 
     const table = useReactTable({
@@ -33,6 +34,8 @@ export function DataTable<TData, TValue>({ columns, data, filterColumn, filterVa
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        onSortingChange: setSorting,
+        getSortedRowModel: getSortedRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
         state: {
@@ -49,17 +52,6 @@ export function DataTable<TData, TValue>({ columns, data, filterColumn, filterVa
 
     return (
         <div>
-            {/* <div className="flex items-center py-4">
-                <Input
-                    placeholder="Pesquisar por nome, email..."
-                    value={table.getColumn("name")?.getFilterValue() as string || ""}
-                    onChange={(event) => {
-                        const value = event.target.value;
-                        table.getColumn("name")?.setFilterValue(value);
-                    }}
-                    className="max-w-sm"
-                />
-            </div> */}
             <div className="rounded-md border">
                 <Table className="min-h-[500px] table-fixed">
                     <TableHeader>
@@ -67,7 +59,14 @@ export function DataTable<TData, TValue>({ columns, data, filterColumn, filterVa
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead
+                                            key={header.id}
+                                            style={
+                                                header.column.columnDef.size
+                                                    ? { width: header.column.columnDef.size }
+                                                    : undefined
+                                            }
+                                        >
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
