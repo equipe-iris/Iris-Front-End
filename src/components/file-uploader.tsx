@@ -181,13 +181,13 @@ function FileCard({ file, loading, error, success, onRemove }: FileCardProps) {
                 {error && (
                     <div className="flex items-center gap-2 text-sm text-red-500 font-medium">
                         <CircleX className="size-5" />
-                        <span>Erro</span>
+                        <span>Erro.</span>
                     </div>
                 )}
                 {success && (
                     <div className="flex items-center gap-2 text-sm text-emerald-500 font-medium">
                         <CircleCheck className="size-5" />
-                        <span>Arquivo importado</span>
+                        <span>Upload concluído, arquivo em processamento.</span>
                     </div>
                 )}
             </div>

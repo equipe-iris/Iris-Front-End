@@ -48,7 +48,7 @@ export function TicketsUploader() {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex w-full flex-col gap-6 bg-white p-6 rounded-md shadow-md h-[500px]"
+                className="flex w-full flex-col gap-6 bg-white p-6 rounded-md shadow-md h-[500px] col-span-2"
             >
                 <FormField
                     control={form.control}

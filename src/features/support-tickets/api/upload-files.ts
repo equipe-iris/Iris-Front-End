@@ -1,8 +1,9 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
+import { getPendingFilesQueryOptions } from './get-pending-files';
 
 
 export const ticketsUploadSchema = z.object({
@@ -25,8 +26,17 @@ type UploadTicketsFileOptions = {
 };
 
 export const useUploadTicketsFile = ({ mutationConfig }: UploadTicketsFileOptions = {}) => {
+    const queryClient = useQueryClient();
+    const { onSuccess, ...restConfig } = mutationConfig || {};
+
     return useMutation({
-        ...mutationConfig,
+        onSuccess: (...args) => {
+            queryClient.refetchQueries({
+                queryKey: getPendingFilesQueryOptions().queryKey
+            })
+            onSuccess?.(...args);
+        },
+        ...restConfig,
         mutationFn: uploadTicketsFile
     });
 };
