@@ -9,7 +9,6 @@ import { Ticket } from "@/features/support-tickets/components/tickets-table-colu
 export const TICKETS_MOCK: Ticket[] = Array.from({ length: 40 }, (_, index) => {
     const serviceRatings = ["Suporte", "Dúvida", "Reclamação"];
     const emotionRatings = ["Positivo", "Neutro", "Negativo"];
-    const statuses = ["Aberto", "Finalizado"];
     const startDates = [
         "01/01/2023 08:00",
         "15/02/2023 09:30",
@@ -22,14 +21,28 @@ export const TICKETS_MOCK: Ticket[] = Array.from({ length: 40 }, (_, index) => {
         "12/09/2023 17:45",
         "01/10/2023 08:30",
     ];
+    const endDates = [
+        "02/01/2023 10:00",
+        "16/02/2023 11:30",
+        "11/03/2023 16:45",
+        "21/04/2023 18:00",
+        "06/05/2023 12:15",
+        "19/06/2023 13:00",
+        "26/07/2023 15:30",
+        "31/08/2023 17:00",
+        "13/09/2023 19:45",
+        "02/10/2023 10:30",
+    ];
+
+    const isClosed = Math.random() > 0.5; // Randomly decide if the ticket is closed
 
     return {
-        id: (index + 1).toString(),
+        original_id: (index + 1).toString(),
         title: `Ticket ${index + 1}`,
         service_rating: serviceRatings[Math.floor(Math.random() * serviceRatings.length)],
-        emotion_rating: emotionRatings[Math.floor(Math.random() * emotionRatings.length)],
-        status: statuses[Math.floor(Math.random() * statuses.length)],
+        sentiment_rating: emotionRatings[Math.floor(Math.random() * emotionRatings.length)],
         start_date: startDates[index % startDates.length],
+        end_date: isClosed ? endDates[index % endDates.length] : undefined, // Add end_date if closed
     };
 });
 

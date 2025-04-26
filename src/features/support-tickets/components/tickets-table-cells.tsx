@@ -27,3 +27,9 @@ export function TicketEmotionCell({ value }: { value: string }) {
         <Badge variant="outline" className={badgeClass} >{value}</Badge>
     )
 }
+
+// ---------------------------------
+
+export function TicketStatusCell({ value }: { value: string | undefined }) {
+    return <p>{value ? "Fechado" : "Aberto"}</p>;
+}
