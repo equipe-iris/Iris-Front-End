@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     onSuccess: (data) => {
       setUser(data.user);
       localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.setItem('authToken', data.token);
     },
   });
 
@@ -42,6 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     await logoutFromServer();
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('authToken');
   };
 
   return (

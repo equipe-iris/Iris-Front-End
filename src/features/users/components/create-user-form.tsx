@@ -19,6 +19,7 @@ export function CreateUserForm() {
         defaultValues: {
             name: "",
             email: "",
+            password: "",
             role: "Viewer",
         },
     })
@@ -71,6 +72,19 @@ export function CreateUserForm() {
                             <FormLabel>Email</FormLabel>
                             <FormControl>
                                 <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Senha</FormLabel>
+                            <FormControl>
+                                <Input type="password" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

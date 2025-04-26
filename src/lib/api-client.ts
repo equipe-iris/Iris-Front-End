@@ -8,6 +8,8 @@ type RequestOptions = {
     params?: Record<string, string | number | boolean | undefined | null>;
 };
 
+const authToken: string | null = localStorage.getItem('authToken');
+
 function buildUrlWithParams(url: string, params?: RequestOptions['params']): string {
     if (!params) return url;
 
@@ -29,7 +31,11 @@ async function fetchApi<T>(url: string, options: RequestOptions = {}): Promise<T
     const fullUrl = buildUrlWithParams(`${env.API_URL}${url}`, params);
 
     const isFormData = body instanceof FormData;
-    const finalHeaders = isFormData ? headers : { 'Content-Type': 'application/json', ...headers };
+    const finalHeaders = {
+        ...(!isFormData && { 'Content-Type': 'application/json' }),
+        ...(authToken && { Authorization: `Bearer ${authToken}` }),
+        ...headers,
+    };
 
     const response = await fetch(fullUrl, {
         method,

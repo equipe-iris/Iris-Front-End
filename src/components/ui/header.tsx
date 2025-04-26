@@ -14,6 +14,7 @@ function Header() {
     const handleLogout = async () => {
         try {
             await logout()
+            toast.success("Desconectado da conta com sucesso")
             router.push("/auth/login")
         } catch (error) {
             toast.error(`Erro ao fazer logout: ${error}`)

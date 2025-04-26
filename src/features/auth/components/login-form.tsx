@@ -30,6 +30,7 @@ export function LoginForm() {
     async function onSubmit(data: LoginSchema) {
         try {
             await login(data)
+            toast.success("Autenticado com sucesso")
             router.push("/app/dashboard")
         } catch (error) {
             toast.error(`Erro ao fazer login: ${error}`)

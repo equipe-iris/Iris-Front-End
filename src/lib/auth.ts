@@ -20,9 +20,26 @@ export type AuthResponse = {
 }
 
 export function loginWithEmailAndPassword(data: LoginSchema): Promise<AuthResponse> {
-    return api.post("/auth/login", data)
+    //return api.post("/auth/login", data)
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({
+                user: {
+                    id: "1",
+                    name: "John Doe",
+                    role: "ADMIN"
+                },
+                token: "token123"
+            })
+        }, 500)
+    })
 }
 
 export function logoutFromServer(): Promise<void> {
-    return api.post("/auth/logout")
+    //return api.post("/auth/logout")
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve()
+        }, 500)
+    })
 }
