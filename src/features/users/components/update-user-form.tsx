@@ -23,7 +23,7 @@ interface UpdateUserFormProps {
 export function UpdateUserForm({ user, isDisabled }: UpdateUserFormProps) {
 
     const { user: currentUser } = useAuth()
-    const canUpdatePassword = currentUser?.id === user?.id
+    const sameUser = currentUser?.id === user?.id
 
     const form = useForm<UpdateUserSchema>({
         resolver: zodResolver(updateUserSchema),
@@ -93,7 +93,7 @@ export function UpdateUserForm({ user, isDisabled }: UpdateUserFormProps) {
                         </FormItem>
                     )}
                 />
-                {canUpdatePassword && (
+                {sameUser && (
                     <FormField
                         control={form.control}
                         name="password"
@@ -113,15 +113,15 @@ export function UpdateUserForm({ user, isDisabled }: UpdateUserFormProps) {
                     name="role"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Cargo</FormLabel>
+                            <FormLabel>Perfil</FormLabel>
                             <FormControl>
                                 <Select
                                     value={field.value}
                                     onValueChange={field.onChange}
-                                    disabled={isDisabled}
+                                    disabled={isDisabled || sameUser}
                                 >
                                     <SelectTrigger className="w-[180px] bg-white">
-                                        <SelectValue placeholder="Selecione um cargo" />
+                                        <SelectValue placeholder="Selecione um perfil" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>

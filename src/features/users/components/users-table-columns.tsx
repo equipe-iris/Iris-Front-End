@@ -34,7 +34,7 @@ export const columns: ColumnDef<User>[] = [
     },
     {
         accessorKey: "role",
-        header: "Cargo"
+        header: "Perfil"
     },
     {
         id: "actions",

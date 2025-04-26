@@ -1,4 +1,5 @@
 import ContentLayout from "@/components/layouts/content-layout";
+import { Authorization } from "@/features/auth/components/authorization";
 
 export default function AppLayout({
     children,
@@ -7,9 +8,11 @@ export default function AppLayout({
 }>) {
     return (
         <div className="flex flex-col gap-22">
-            <ContentLayout>
-                {children}
-            </ContentLayout>
+            <Authorization>
+                <ContentLayout>
+                    {children}
+                </ContentLayout>
+            </Authorization>
         </div>
     );
 }

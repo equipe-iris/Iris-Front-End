@@ -95,14 +95,14 @@ export function CreateUserForm() {
                     name="role"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Cargo</FormLabel>
+                            <FormLabel>Perfil</FormLabel>
                             <FormControl>
                                 <Select
                                     value={field.value}
                                     onValueChange={field.onChange}
                                 >
                                     <SelectTrigger className="w-[180px] bg-white">
-                                        <SelectValue placeholder="Selecione um cargo" />
+                                        <SelectValue placeholder="Selecione um perfil" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
