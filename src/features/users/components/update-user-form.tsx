@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { updateUserSchema, UpdateUserSchema, useUpdateUser } from "../api/update-user"
 import { User } from "./users-table-columns"
 
+import { useAuth } from "@/hooks/use-auth";
+
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -14,15 +16,21 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react"
 
 interface UpdateUserFormProps {
-    user: User
+    user?: User
     isDisabled?: boolean
 }
 
 export function UpdateUserForm({ user, isDisabled }: UpdateUserFormProps) {
 
+    const { user: currentUser } = useAuth()
+    const canUpdatePassword = currentUser?.id === user?.id
+
     const form = useForm<UpdateUserSchema>({
         resolver: zodResolver(updateUserSchema),
-        defaultValues: user
+        defaultValues: {
+            ...user,
+            password: "",
+        }
     })
 
     const updateUserMutation = useUpdateUser({
@@ -36,12 +44,21 @@ export function UpdateUserForm({ user, isDisabled }: UpdateUserFormProps) {
             }
         }
     })
-    
+
     const isPending = updateUserMutation.isPending
 
     function onSubmit(data: UpdateUserSchema) {
         console.log(data)
         updateUserMutation.mutate(data)
+    }
+
+    if (!user) {
+        return (
+            <div className="w-full h-72 flex flex-col gap-3 justify-center p-5 text-zinc-700 font-medium text-center">
+                <p>Não foi possível recuperar os dados do usuário</p>
+                <p>Tente novamente mais tarde</p>
+            </div>
+        )
     }
 
     return (
@@ -76,6 +93,21 @@ export function UpdateUserForm({ user, isDisabled }: UpdateUserFormProps) {
                         </FormItem>
                     )}
                 />
+                {canUpdatePassword && (
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Senha</FormLabel>
+                                <FormControl>
+                                    <Input {...field} disabled={isDisabled} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                )}
                 <FormField
                     control={form.control}
                     name="role"

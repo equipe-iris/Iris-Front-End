@@ -1,8 +1,11 @@
 'use client';
 
 import React, { createContext, useEffect, useState } from 'react';
+
 import { useMutation } from '@tanstack/react-query';
+
 import { loginWithEmailAndPassword, logoutFromServer, LoginSchema, User } from '@/lib/auth';
+import { setAuthToken } from '@/lib/api-client';
 
 type AuthContextType = {
   user: User | null;
@@ -19,15 +22,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
+    const storedToken = localStorage.getItem('authToken');
     if (storedUser) setUser(JSON.parse(storedUser));
+    if (storedToken) setAuthToken(storedToken);
   }, []);
 
   const loginMutation = useMutation({
     mutationFn: loginWithEmailAndPassword,
     onSuccess: (data) => {
       setUser(data.user);
+      setAuthToken(data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
-      localStorage.setItem('authToken', data.token);
     },
   });
 
@@ -42,8 +47,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = async () => {
     await logoutFromServer();
     setUser(null);
+    setAuthToken(null);
     localStorage.removeItem('user');
-    localStorage.removeItem('authToken');
   };
 
   return (

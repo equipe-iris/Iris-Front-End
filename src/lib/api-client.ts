@@ -8,7 +8,19 @@ type RequestOptions = {
     params?: Record<string, string | number | boolean | undefined | null>;
 };
 
-const authToken: string | null = localStorage.getItem('authToken');
+let authToken: string | null = null;
+console.log(authToken)
+
+export function setAuthToken(token: string | null) {
+    authToken = token;
+    if (typeof window !== 'undefined') {
+        if (token) {
+            localStorage.setItem('authToken', token);
+        } else {
+            localStorage.removeItem('authToken');
+        }
+    }
+}
 
 function buildUrlWithParams(url: string, params?: RequestOptions['params']): string {
     if (!params) return url;

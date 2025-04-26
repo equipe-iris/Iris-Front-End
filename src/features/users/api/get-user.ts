@@ -8,11 +8,15 @@ import { USERS_MOCK } from "./get-users";
 
 function getUser(userId: string): Promise<User> {
     //return api.get(`/user/${userId}`)
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         setTimeout(() => {
             const user = USERS_MOCK.find(user => user.id === userId);
-            resolve(user!)
-        }, 1000)
+            if (user) {
+                resolve(user);
+            } else {
+                reject(new Error("Usuário não encontrado"));
+            }
+        }, 2000);
     })
 }
 

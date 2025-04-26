@@ -1,13 +1,20 @@
 "use client";
 
+import React from "react";
 import Image from "next/image"
-import { ChevronDown, LogOut, UserPen } from "lucide-react"
-import { useAuth } from "@/hooks/use-auth"
-import { Popover, PopoverTrigger, PopoverContent } from "./popover"
 import { useRouter } from "next/navigation";
+
+import { useAuth } from "@/hooks/use-auth"
+
+import { Popover, PopoverTrigger, PopoverContent } from "./popover"
 import { toast } from "sonner";
+import { ChevronDown, LogOut, UserPen } from "lucide-react"
+import { UserProfile } from "@/features/users/components/user-profile";
 
 function Header() {
+
+    const [openProfile, setOpenProfile] = React.useState(false)
+
     const { user, logout } = useAuth()
     const router = useRouter()
 
@@ -47,7 +54,10 @@ function Header() {
                                 </PopoverTrigger>
                                 <PopoverContent className="w-[--radix-popover-trigger-width] min-w-[150px]">
                                     <div className="flex flex-col gap-2">
-                                        <span className="flex items-center gap-2 text-sm font-semibold text-zinc-700 px-2 py-1 hover:bg-muted-foreground/10 rounded-md cursor-pointer">
+                                        <span
+                                            className="flex items-center gap-2 text-sm font-semibold text-zinc-700 px-2 py-1 hover:bg-muted-foreground/10 rounded-md cursor-pointer"
+                                            onClick={() => setOpenProfile(true)}
+                                        >
                                             <UserPen size={16} />
                                             Perfil
                                         </span>
@@ -65,6 +75,7 @@ function Header() {
                     </div>
                 </div>
             </header>
+            <UserProfile open={openProfile} onOpenChange={setOpenProfile} userId={user?.id} />
         </>
     )
 }
