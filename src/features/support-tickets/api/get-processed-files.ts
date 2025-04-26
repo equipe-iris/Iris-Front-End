@@ -11,7 +11,7 @@ const FILES_MOCK: FileCardProps[] = [
 ]
 
 function getProcessedFiles(): Promise<FileCardProps[]> {
-    //return api.get("/processed-files")
+    //return api.get("/files/processed-files")
     return new Promise((resolve => {
         setTimeout(() => {
             resolve(FILES_MOCK);

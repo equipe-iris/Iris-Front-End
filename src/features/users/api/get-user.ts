@@ -7,7 +7,7 @@ import { User } from "../components/users-table-columns";
 import { USERS_MOCK } from "./get-users";
 
 function getUser(userId: string): Promise<User> {
-    //return api.get(`/user/${userId}`)
+    //return api.get(`/users/${userId}`)
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             const user = USERS_MOCK.find(user => user.id === userId);

@@ -17,7 +17,7 @@ export type UpdateUserSchema = z.infer<typeof updateUserSchema>;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function updateUser(data: UpdateUserSchema): Promise<void> {
-    //return api.put(`/update-user/${data.user.id}`, data)
+    //return api.put(`/users/${data.user.id}`, data)
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve()

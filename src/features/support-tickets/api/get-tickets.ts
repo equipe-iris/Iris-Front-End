@@ -47,7 +47,7 @@ export const TICKETS_MOCK: Ticket[] = Array.from({ length: 40 }, (_, index) => {
 });
 
 function getTickets(): Promise<Ticket[]> {
-    //return api.get("/users")
+    //return api.get("/tickets/processed-tickets")
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(TICKETS_MOCK)

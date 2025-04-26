@@ -17,7 +17,7 @@ export type CreateUserSchema = z.infer<typeof createUserSchema>;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function createUser(data: CreateUserSchema): Promise<void> {
-    //return api.post("/create-user", data)
+    //return api.post("/users", data)
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve()

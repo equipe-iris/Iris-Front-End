@@ -5,7 +5,7 @@ import { getUsersQueryOptions } from "./get-users";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function deleteUser(userId: string): Promise<void> {
-    // return api.delete(`/user/${userId}`)
+    // return api.delete(`/users/${userId}`)
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve()

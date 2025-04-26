@@ -7,7 +7,7 @@ const PENDING_FILES_MOCK: FileCardProps[] = [
 ]
 
 function getPendingFiles(): Promise<FileCardProps[]> {
-    //return api.get("/processed-files")
+    //return api.get("/files/pending-files")
     return new Promise((resolve => {
         setTimeout(() => {
             resolve(PENDING_FILES_MOCK);
