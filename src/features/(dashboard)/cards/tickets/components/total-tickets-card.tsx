@@ -9,7 +9,7 @@ import { TicketSlash } from "lucide-react";
 export function TotalTicketsCard() {
 
     const totalTicketsQuery = useTotalTickets()
-    const totalTickets = totalTicketsQuery.data?.total_tickets
+    const totalTickets = totalTicketsQuery.data?.total_tickets ?? 0
 
     if (totalTicketsQuery.isLoading) {
         return (
