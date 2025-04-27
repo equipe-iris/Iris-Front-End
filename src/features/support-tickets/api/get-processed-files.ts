@@ -4,6 +4,7 @@ import { FileCardProps } from "../components/imported-files-list";
 
 import { QueryConfig } from "@/lib/react-query";
 import { api } from "@/lib/api-client";
+import { formatDateTime } from "@/lib/utils";
 
 // const FILES_MOCK: FileCardProps[] = [
 //     { name: "Chamados Porto.csv", upload_datetime: "10/01/2023", finished_at: "10/02/2023" },
@@ -14,7 +15,13 @@ import { api } from "@/lib/api-client";
 // ]
 
 function getProcessedFiles(): Promise<FileCardProps[]> {
-    return api.get("/files/processed-files")
+    return api.get<FileCardProps[]>("/files/processed-files").then((response) => {
+        return response.map((file) => ({
+            ...file,
+            upload_datetime: formatDateTime(file.upload_datetime),
+            finished_at: file.finished_at ? formatDateTime(file.finished_at) : undefined,
+        }));
+    })
 };
 
 function getProcessedFilesQueryOptions() {
@@ -34,5 +41,5 @@ export function useProcessedFiles({ queryConfig }: useProcessedFilesOptions = {}
     return useQuery({
         ...getProcessedFilesQueryOptions(),
         ...queryConfig
-    })  
+    })
 }

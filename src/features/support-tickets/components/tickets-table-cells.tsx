@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { formatDateTime } from "@/lib/utils";
 
 const categoryBadgeClass: Record<string, string> = {
     "duvida": "bg-teal-500",
@@ -28,6 +29,12 @@ export function TicketEmotionCell({ value }: { value: string }) {
     return (
         <Badge variant="outline" className={badgeClass} >{capitalizedValue}</Badge>
     )
+}
+
+// ---------------------------------
+
+export function TicketStartDateCell({ value }: { value: string }) {
+    return <p>{formatDateTime(value)}</p>
 }
 
 // ---------------------------------

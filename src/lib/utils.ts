@@ -1,7 +1,8 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { format, parseISO, subDays } from "date-fns";
+
 import { DateRange, TimeRange } from "@/types/api";
-import { format, subDays } from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -60,4 +61,9 @@ export function formatBytes(
       ? (accurateSizes[i] ?? "Bytes")
       : (sizes[i] ?? "Bytes")
   }`
+}
+
+export function formatDateTime(dateString: string): string {
+  const date = parseISO(dateString);
+  return format(date, "dd/MM/yyyy HH:mm");
 }

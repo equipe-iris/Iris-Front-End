@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { TicketCategoryCell, TicketEmotionCell, TicketStatusCell } from "./tickets-table-cells";
+import { TicketCategoryCell, TicketEmotionCell, TicketStartDateCell, TicketStatusCell } from "./tickets-table-cells";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 
@@ -67,6 +67,10 @@ export const columns: ColumnDef<Ticket>[] = [
                 </div>
             );
         },
+        cell: ({ cell }) => {
+            const startDate = cell.getValue<string>();
+            return <TicketStartDateCell value={startDate}/>;
+        }
     },
     {
         accessorKey: "end_date",
