@@ -9,7 +9,7 @@ import { TrendingUp } from "lucide-react";
 export function TodaysTicketsCard() {
 
     const todayTicketsQuery = useTodayTickets()
-    const todayTickets = todayTicketsQuery.data?.tickets_today
+    const todayTickets = todayTicketsQuery.data?.tickets_today ?? 0
 
     if (todayTicketsQuery.isLoading) {
         return (

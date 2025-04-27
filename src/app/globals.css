@@ -115,7 +115,15 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.tw-safelist {
+  /* Cores de badge para categorias */
+  @apply bg-teal-500 bg-indigo-500 bg-cyan-500 bg-gray-500;
+  /* Cores de badge para emoções */
+  @apply bg-green-500 bg-red-500 bg-black;
 }
