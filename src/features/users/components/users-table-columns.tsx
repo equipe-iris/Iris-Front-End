@@ -5,19 +5,16 @@ import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 
 import UsersTableActionsCell from "./users-table-actions-cell";
+import { UserRoleCell } from "./users-table-cells";
 
 export type User = {
     id: string;
     name: string;
     email: string;
-    role: "Admin" | "Viewer";
+    role: "ADMIN" | "VIEWER";
 }
 
 export const columns: ColumnDef<User>[] = [
-    {
-        accessorKey: "id",
-        header: "ID"
-    },
     {
         accessorKey: "name",
         header: "Nome",
@@ -34,11 +31,15 @@ export const columns: ColumnDef<User>[] = [
     },
     {
         accessorKey: "role",
-        header: "Perfil"
+        header: "Perfil",
+        cell: ({ row }) => {
+            const role = row.getValue<string>("role");
+            return <UserRoleCell value={role} />;
+        },
     },
     {
         id: "actions",
         header: () => <div className="text-center">Ações</div>,
-        cell: ({ row }) => <UsersTableActionsCell user={row.original} />,      
+        cell: ({ row }) => <UsersTableActionsCell user={row.original} />,
     },
 ]

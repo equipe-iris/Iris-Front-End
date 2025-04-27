@@ -2,15 +2,11 @@ import { MutationConfig } from "@/lib/react-query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { getUsersQueryOptions } from "./get-users";
+import { api } from "@/lib/api-client";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function deleteUser(userId: string): Promise<void> {
-    // return api.delete(`/users/${userId}`)
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve()
-        }, 1000)
-    })
+export async function deleteUser(userId: string): Promise<void> {
+    await api.delete(`/users/${userId}`)
+    return;
 }
 
 type UseDeleteUserOptions = {

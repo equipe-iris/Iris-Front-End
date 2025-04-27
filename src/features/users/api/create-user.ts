@@ -2,27 +2,22 @@ import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { MutationConfig } from "@/lib/react-query";
+import { api } from "@/lib/api-client";
 import { getUsersQueryOptions } from "./get-users";
 
 export const createUserSchema = z.object({
     name: z.string().min(1, "Nome é obrigatório"),
     email: z.string().email("Email inválido").min(1, "Email é obrigatório"),
     password: z.string().min(6, "Senha deve conter no mínimo 6 caracteres"),
-    role: z.enum(["Admin", "Viewer"], {
+    role: z.enum(["ADMIN", "VIEWER"], {
         errorMap: () => ({ message: "Selecione um papel" })
     })
 })
 
 export type CreateUserSchema = z.infer<typeof createUserSchema>;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function createUser(data: CreateUserSchema): Promise<void> {
-    //return api.post("/users", data)
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve()
-        }, 1000)
-    })
+    return api.post("/users", data)
 }
 
 export type CreateUserOptions = {

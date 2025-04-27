@@ -24,6 +24,7 @@ export function UpdateUserForm({ user, isDisabled }: UpdateUserFormProps) {
 
     const { user: currentUser } = useAuth()
     const sameUser = currentUser?.id === user?.id
+    const isAdmin = user?.role === "ADMIN"
 
     const form = useForm<UpdateUserSchema>({
         resolver: zodResolver(updateUserSchema),
@@ -118,15 +119,15 @@ export function UpdateUserForm({ user, isDisabled }: UpdateUserFormProps) {
                                 <Select
                                     value={field.value}
                                     onValueChange={field.onChange}
-                                    disabled={isDisabled || sameUser}
+                                    disabled={isDisabled || sameUser || isAdmin}
                                 >
                                     <SelectTrigger className="w-[180px] bg-white">
                                         <SelectValue placeholder="Selecione um perfil" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
-                                            <SelectItem value="Viewer">VIEWER</SelectItem>
-                                            <SelectItem value="Admin">ADMIN</SelectItem>
+                                            <SelectItem value="VIEWER">VIEWER</SelectItem>
+                                            <SelectItem value="ADMIN">ADMIN</SelectItem>
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>

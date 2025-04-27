@@ -22,6 +22,7 @@ export function DeleteUserDialog({ user, open, onOpenChange }: DeleteUserDialogP
             onError: (error) => {
                 toast.error(`Não foi possível excluir o usuário: ${error}`);
                 console.log(error);
+                onOpenChange(false);
             },
         },
     });

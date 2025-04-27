@@ -26,8 +26,8 @@ export function loginWithEmailAndPassword(data: LoginSchema): Promise<AuthRespon
         setTimeout(() => {
             resolve({
                 user: {
-                    id: "728ed52f",
-                    name: "John Doe",
+                    id: "92d55882-20d5-4ec7-a957-7eeb36ae02a8",
+                    name: "Johnny Doe",
                     role: "ADMIN"
                 },
                 token: "token123"

@@ -20,7 +20,7 @@ export function CreateUserForm() {
             name: "",
             email: "",
             password: "",
-            role: "Viewer",
+            role: "VIEWER",
         },
     })
 
@@ -106,8 +106,8 @@ export function CreateUserForm() {
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
-                                            <SelectItem value="Viewer">VIEWER</SelectItem>
-                                            <SelectItem value="Admin">ADMIN</SelectItem>
+                                            <SelectItem value="VIEWER">VIEWER</SelectItem>
+                                            <SelectItem value="ADMIN">ADMIN</SelectItem>
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
