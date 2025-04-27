@@ -102,7 +102,7 @@ export function UpdateUserForm({ user, isDisabled }: UpdateUserFormProps) {
                             <FormItem>
                                 <FormLabel>Senha</FormLabel>
                                 <FormControl>
-                                    <Input {...field} disabled={isDisabled} />
+                                    <Input {...field} type="password" disabled={isDisabled} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

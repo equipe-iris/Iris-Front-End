@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { z } from "zod"
 
 import { api } from "./api-client"
@@ -21,26 +20,13 @@ export type AuthResponse = {
 }
 
 export function loginWithEmailAndPassword(data: LoginSchema): Promise<AuthResponse> {
-    //return api.post("/auth/login", data)
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve({
-                user: {
-                    id: "92d55882-20d5-4ec7-a957-7eeb36ae02a8",
-                    name: "Johnny Doe",
-                    role: "ADMIN"
-                },
-                token: "token123"
-            })
-        }, 500)
-    })
+    return api.post("/auth/login", data)
 }
 
 export function logoutFromServer(): Promise<void> {
-    //return api.post("/auth/logout")
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve()
-        }, 500)
+        })
     })
 }
