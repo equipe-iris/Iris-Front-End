@@ -19,8 +19,8 @@ const chartConfig = {
         label: 'Reclamação',
         color: 'var(--chart-2)'
     },
-    suporte: {
-        label: 'Suporte',
+    solicitacao: {
+        label: 'Solicitação',
         color: 'var(--chart-3)'
     }
 } satisfies ChartConfig
