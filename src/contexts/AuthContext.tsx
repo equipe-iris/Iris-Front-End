@@ -13,11 +13,13 @@ type AuthContextType = {
   logout: () => Promise<void>;
   loading: boolean;
   isAuthenticated: boolean;
+  isInitializing: boolean;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isInitializing, setIsInitializing] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -26,6 +28,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const storedToken = localStorage.getItem('authToken');
     if (storedUser) setUser(JSON.parse(storedUser));
     if (storedToken) setAuthToken(storedToken);
+    setIsInitializing(false);
   }, []);
 
   const loginMutation = useMutation({
@@ -53,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, isAuthenticated: !!user, isInitializing }}>
       {children}
     </AuthContext.Provider>
   );

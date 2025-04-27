@@ -12,18 +12,20 @@ interface AuthorizationProps {
 
 export function Authorization({ children, allowedRole }: AuthorizationProps) {
 
-    const { user, isAuthenticated } = useAuth()
+    const { user, isAuthenticated, isInitializing } = useAuth()
     const router = useRouter()
 
     React.useEffect(() => {
-        if (!isAuthenticated) {
-            router.replace("/auth/login")
-        } else if (allowedRole && user?.role !== allowedRole) {
-            router.push("/auth/unauthorized")
+        if (!isInitializing) { // Aguarda a inicialização
+            if (!isAuthenticated) {
+                router.replace("/auth/login")
+            } else if (allowedRole && user?.role !== allowedRole) {
+                router.push("/auth/unauthorized")
+            }
         }
-    }, [isAuthenticated, router, user, allowedRole])
+    }, [isAuthenticated, router, user, allowedRole, isInitializing])
 
-    if (!isAuthenticated || (allowedRole && user?.role !== allowedRole)) {
+    if (isInitializing || !isAuthenticated || (allowedRole && user?.role !== allowedRole)) {
         return null
     }
 
