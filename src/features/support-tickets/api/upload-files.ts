@@ -18,7 +18,7 @@ export const uploadTicketsFile = ({ data }: { data: TicketsUploadSchema }): Prom
         formData.append('file', file)
     })
 
-    return api.post('/preprocessing/upload-dataset', formData);
+    return api.post('/predict', formData);
 };
 
 type UploadTicketsFileOptions = {
