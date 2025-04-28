@@ -1,21 +1,16 @@
 "use client"
 
+import React from "react"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
-import {
-    Card,
-    CardContent, CardDescription, CardHeader,
-    CardTitle
-} from "@/components/ui/card"
-import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
-} from "@/components/ui/chart"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useAHT } from "../api/get-average-time-handling"
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Skeleton } from "@/components/ui/skeleton"
+
+import { TimeRange } from "@/types/api"
 
 const chartConfig = {
     average_time: {
@@ -26,7 +21,9 @@ const chartConfig = {
 
 export function AverageTimeHandlingChart() {
 
-    const ahtQuery = useAHT()
+    const [timeRange, setTimeRange] = React.useState<TimeRange>("7d")
+
+    const ahtQuery = useAHT(timeRange)
     const chartData = ahtQuery.data
 
     if (ahtQuery.isLoading || ahtQuery.isFetching) {
@@ -55,7 +52,7 @@ export function AverageTimeHandlingChart() {
                     <CardTitle>Tempo médio de atendimento</CardTitle>
                     <CardDescription>Média em minutos do tempo levado para encerrar um chamado</CardDescription>
                 </div>
-                <Select>
+                <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
                     <SelectTrigger className="w-[160px] rounded-lg">
                         <SelectValue placeholder="Últimos 7 dias" />
                     </SelectTrigger>
@@ -114,7 +111,7 @@ export function AverageTimeHandlingChart() {
                             content={
                                 <ChartTooltipContent
                                     className="w-[150px]"
-                                    nameKey="views"
+                                    nameKey="average_time"
                                     labelFormatter={(value) => {
                                         return new Date(value).toLocaleDateString("pt-BR", {
                                             month: "short",
