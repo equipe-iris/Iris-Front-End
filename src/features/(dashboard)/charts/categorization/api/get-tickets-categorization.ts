@@ -9,7 +9,7 @@ async function getTicketsCategorization(): Promise<CategoryChartData[]> {
     return data;
 }
 
-function getTicketsCategorizationQueryOptions() {
+export function getTicketsCategorizationQueryOptions() {
     return queryOptions({
         queryKey: ["tickets-categorization"],
         queryFn: getTicketsCategorization,

@@ -16,7 +16,7 @@ async function getEmotionScore(timeRange: TimeRange): Promise<EmotionScoreChartD
     return formatToEmotionScoreChart(response);
 }
 
-function getEmotionScoreQueryOptions(timeRange: TimeRange) {
+export function getEmotionScoreQueryOptions(timeRange: TimeRange) {
     return queryOptions({
         queryKey: ["emotion-score", timeRange],
         queryFn: () => getEmotionScore(timeRange),
