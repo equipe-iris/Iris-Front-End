@@ -14,7 +14,7 @@ async function getEmotionScoreEvolution(timeRange: TimeRange): Promise<EmotionSc
     });
 }
 
-function getEmotionScoreQueryOptions(timeRange: TimeRange) {
+export function getEmotionScoreEvolutionQueryOptions(timeRange: TimeRange) {
     return queryOptions({
         queryKey: ["emotion-score-evolution", timeRange],
         queryFn: () => getEmotionScoreEvolution(timeRange),
@@ -23,7 +23,7 @@ function getEmotionScoreQueryOptions(timeRange: TimeRange) {
 
 export function useEmotionScoreEvolution(timeRange: TimeRange) {
     return useQuery({
-        ...getEmotionScoreQueryOptions(timeRange),
+        ...getEmotionScoreEvolutionQueryOptions(timeRange),
         placeholderData: [{ date: "2025-01-01", score: 0, ticket_count: 0 }],
     })
 }

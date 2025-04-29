@@ -6,7 +6,7 @@ function getTotalTickets(): Promise<TicketCardsData> {
     return api.get(`/dashboard/cards`)
 }
 
-function getTotalTicketsQueryOptions() {
+export function getTotalTicketsQueryOptions() {
     return queryOptions({
         queryKey: ["total-tickets"],
         queryFn: getTotalTickets,

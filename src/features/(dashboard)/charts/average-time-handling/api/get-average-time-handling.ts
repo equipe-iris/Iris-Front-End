@@ -16,7 +16,7 @@ function getAHT(timeRange: TimeRange): Promise<AHTChartData[]> {
     });
 }
 
-function getAHTQueryOptions(timeRange: TimeRange) {
+export function getAHTQueryOptions(timeRange: TimeRange) {
     return queryOptions({
         queryKey: ["average-handling-time", timeRange],
         queryFn: () => getAHT(timeRange),
