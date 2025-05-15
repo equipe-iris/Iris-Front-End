@@ -6,7 +6,7 @@ function getTodayTickets(): Promise<TicketCardsData> {
     return api.get(`/dashboard/cards`)
 }
 
-function getTodayTicketsQueryOptions() {
+export function getTodayTicketsQueryOptions() {
     return queryOptions({
         queryKey: ["today-tickets"],
         queryFn: getTodayTickets,
