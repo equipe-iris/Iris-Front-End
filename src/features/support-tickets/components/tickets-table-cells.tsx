@@ -2,8 +2,8 @@ import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/utils";
 
 const categoryBadgeClass: Record<string, { text: string; color: string }> = {
-    "duvida": { text: "Dúvida", color: "bg-teal-500" },
-    "reclamacao": { text: "Reclamação", color: "bg-indigo-500" },
+    "duvida": { text: "Dúvida", color: "bg-amber-500" },
+    "reclamacao": { text: "Reclamação", color: "bg-rose-500" },
     "solicitacao": { text: "Solicitação", color: "bg-cyan-500" }
 };
 export function TicketCategoryCell({ value }: { value: string }) {
