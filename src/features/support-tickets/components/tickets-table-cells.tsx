@@ -1,17 +1,17 @@
 import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/utils";
 
-const categoryBadgeClass: Record<string, string> = {
-    "duvida": "bg-teal-500",
-    "reclamacao": "bg-indigo-500",
-    "solicitacao": "bg-cyan-500"
+const categoryBadgeClass: Record<string, { text: string; color: string }> = {
+    "duvida": { text: "Dúvida", color: "bg-teal-500" },
+    "reclamacao": { text: "Reclamação", color: "bg-indigo-500" },
+    "solicitacao": { text: "Solicitação", color: "bg-cyan-500" }
 };
 export function TicketCategoryCell({ value }: { value: string }) {
-    const badgeClass = categoryBadgeClass[value] ?? "bg-gray-500";
-    const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
+    const badgeClass = categoryBadgeClass[value]?.color ?? "bg-gray-500";
+    const badgeText = categoryBadgeClass[value]?.text ?? "Desconhecido";
 
     return (
-        <Badge variant="default" className={badgeClass}>{capitalizedValue}</Badge>
+        <Badge variant="default" className={badgeClass}>{badgeText}</Badge>
     );
 }
 
