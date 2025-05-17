@@ -35,6 +35,11 @@ export function getDateRange(timeRange: TimeRange): DateRange {
       break
     case "90d":
       startDate = subDays(today, 90)
+    case "all":
+      return {
+        start_date: "",
+        end_date: ""
+      }
   }
 
   return {

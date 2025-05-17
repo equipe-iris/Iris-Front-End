@@ -26,7 +26,7 @@ import { TimeRange } from "@/types/api"
 
 export function EmotionScoreChart() {
 
-    const [timeRange, setTimeRange] = React.useState<TimeRange>("today")
+    const [timeRange, setTimeRange] = React.useState<TimeRange>("all")
 
     const scoreQuery = useEmotionScore(timeRange)
     const scoreData = scoreQuery.data || []
@@ -71,7 +71,7 @@ export function EmotionScoreChart() {
                 </div>
                 <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
                     <SelectTrigger className="w-[160px] rounded-lg">
-                        <SelectValue placeholder="Hoje" />
+                        <SelectValue placeholder="Todo o período" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl">
                         <SelectItem value="today" className="rounded-lg">
@@ -82,6 +82,9 @@ export function EmotionScoreChart() {
                         </SelectItem>
                         <SelectItem value="30d" className="rounded-lg">
                             Últimos 30 dias
+                        </SelectItem>
+                        <SelectItem value="all" className="rounded-lg">
+                            Todo o período
                         </SelectItem>
                     </SelectContent>
                 </Select>
