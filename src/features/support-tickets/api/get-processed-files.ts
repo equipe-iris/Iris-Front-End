@@ -6,14 +6,6 @@ import { QueryConfig } from "@/lib/react-query";
 import { api } from "@/lib/api-client";
 import { formatDateTime } from "@/lib/utils";
 
-// const FILES_MOCK: FileCardProps[] = [
-//     { name: "Chamados Porto.csv", upload_datetime: "10/01/2023", finished_at: "10/02/2023" },
-//     { name: "Exportar Jira 20230210", upload_datetime: "10/02/2023", finished_at: "10/02/2023" },
-//     { name: "Chamados x", upload_datetime: "10/03/2023", finished_at: "10/02/2023" },
-//     { name: "Exportar Jira 20230210", upload_datetime: "10/02/2023", finished_at: "10/02/2023" },
-//     { name: "Chamados x", upload_datetime: "10/03/2023", finished_at: "10/02/2023" },
-// ]
-
 function getProcessedFiles(): Promise<FileCardProps[]> {
     return api.get<FileCardProps[]>("/files/processed-files").then((response) => {
         return response.map((file) => ({
@@ -24,11 +16,11 @@ function getProcessedFiles(): Promise<FileCardProps[]> {
     })
 };
 
-function getProcessedFilesQueryOptions() {
+export function getProcessedFilesQueryOptions() {
     return {
         queryKey: ["processed-files"],
         queryFn: getProcessedFiles,
-        refetchInterval: 1000 * 60 * 1,
+        refetchInterval: 1000 * 60 * 0.25,
         refetchOnWindowFocus: true,
     }
 }

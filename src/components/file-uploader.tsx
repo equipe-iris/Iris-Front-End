@@ -187,7 +187,7 @@ function FileCard({ file, loading, error, success, onRemove }: FileCardProps) {
                 {success && (
                     <div className="flex items-center gap-2 text-sm text-emerald-500 font-medium">
                         <CircleCheck className="size-5" />
-                        <span>Upload concluído, arquivo em processamento.</span>
+                        <span>Chamados importados.</span>
                     </div>
                 )}
             </div>

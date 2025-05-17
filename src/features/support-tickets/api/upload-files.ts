@@ -11,6 +11,8 @@ import { getTicketsCategorizationQueryOptions } from '@/features/(dashboard)/cha
 import { getEmotionScoreQueryOptions } from '@/features/(dashboard)/charts/emotion-score/api/get-emotion-score';
 import { getEmotionScoreEvolutionQueryOptions } from '@/features/(dashboard)/charts/emotion-score/api/get-emotion-score-evolution';
 import { getTicketsQueryOptions } from './get-tickets';
+import { getProcessedFilesQueryOptions } from './get-processed-files';
+import { sleep } from '@/lib/utils';
 
 
 export const ticketsUploadSchema = z.object({
@@ -38,22 +40,27 @@ export const useUploadTicketsFile = ({ mutationConfig }: UploadTicketsFileOption
 
 
     return useMutation({
-        onSuccess: (...args) => {
-            [
+        onMutate: async () => {
+            await sleep(10000);
+            await queryClient.invalidateQueries({ queryKey: getPendingFilesQueryOptions().queryKey });
+        },
+        onSuccess: async (...args) => {
+            const queriesToInvalidate = [
                 getPendingFilesQueryOptions(),
+                getProcessedFilesQueryOptions(),
                 getTodayTicketsQueryOptions(),
                 getTotalTicketsQueryOptions(),
-                getAHTQueryOptions("7d"),
+                getAHTQueryOptions("90d"),
                 getTicketsCategorizationQueryOptions(),
-                getEmotionScoreQueryOptions("today"),
-                getEmotionScoreEvolutionQueryOptions("7d"),
+                getEmotionScoreQueryOptions("all"),
+                getEmotionScoreEvolutionQueryOptions("90d"),
                 getTicketsQueryOptions()
-            ]
-                .forEach((queryOptions) => {
-                    queryClient.refetchQueries({
-                        queryKey: queryOptions.queryKey,
-                    });
-                });
+            ];
+            await Promise.all(
+                queriesToInvalidate.map((queryOptions) => {
+                    queryClient.invalidateQueries({ queryKey: queryOptions.queryKey });
+                })
+            );
             onSuccess?.(...args);
         },
         ...restConfig,

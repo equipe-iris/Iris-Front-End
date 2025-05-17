@@ -6,10 +6,6 @@ import { QueryConfig } from "@/lib/react-query";
 import { api } from "@/lib/api-client";
 import { formatDateTime } from "@/lib/utils";
 
-// const PENDING_FILES_MOCK: FileCardProps[] = [
-//     { name: "Chamados Porto.csv", upload_datetime: "10/01/2023" },
-// ]
-
 function getPendingFiles(): Promise<FileCardProps[]> {
     return api.get<FileCardProps[]>("/files/pending-files").then((response) => {
         return response.map((file) => ({
@@ -23,6 +19,8 @@ function getPendingFiles(): Promise<FileCardProps[]> {
     return {
         queryKey: ["pending-files"],
         queryFn: getPendingFiles,
+        refetchInterval: 1000 * 60 * 0.25,
+        refetchOnWindowFocus: true,
     }
 }
 
