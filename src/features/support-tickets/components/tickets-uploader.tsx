@@ -21,7 +21,11 @@ export function TicketsUploader() {
     const uploadTicketsFileMutation = useUploadTicketsFile({
         mutationConfig: {
             onSuccess: () => {
-                toast.success('Chamados importados com sucessso!')
+                toast.success('Chamados importados com sucessso!', {
+                    description: 'Você pode já pode visualizar os resultados.',
+                    closeButton: true,
+                    duration: Infinity,
+                })
             },
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onError: (error: any) => {
