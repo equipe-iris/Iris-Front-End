@@ -13,15 +13,15 @@ const chartConfig = {
     },
     duvida: {
         label: 'Dúvida',
-        color: 'var(--chart-1)'
+        color: 'var(--chart-5)'
     },
     reclamacao: {
         label: 'Reclamação',
-        color: 'var(--chart-2)'
+        color: 'var(--chart-4)'
     },
     solicitacao: {
         label: 'Solicitação',
-        color: 'var(--chart-3)'
+        color: 'var(--chart-1)'
     }
 } satisfies ChartConfig
 
