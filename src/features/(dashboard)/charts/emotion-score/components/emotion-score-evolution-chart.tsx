@@ -2,7 +2,7 @@
 
 import React from "react"
 
-import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts"
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 import {
     Card,
     CardContent, CardDescription, CardHeader,
@@ -18,14 +18,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { TimeRange } from "@/types/api"
 import { useEmotionScoreEvolution } from "../api/get-emotion-score-evolution"
 import { Skeleton } from "@/components/ui/skeleton"
-// const chartData = [
-//     { date: "23/03", score: 89 },
-//     { date: "24/03", score: 80 },
-//     { date: "25/03", score: 81 },
-//     { date: "26/03", score: 65 },
-//     { date: "27/03", score: 67 },
-//     { date: "28/03", score: 43 }
-// ]
 
 const chartConfig = {
     score: {
@@ -36,7 +28,7 @@ const chartConfig = {
 
 export function EmotionScoreEvolutionChart() {
 
-    const [timeRange, setTimeRange] = React.useState<TimeRange>("7d")
+    const [timeRange, setTimeRange] = React.useState<TimeRange>("90d")
 
     const emotionScoreTrendQuery = useEmotionScoreEvolution(timeRange)
     const chartData = emotionScoreTrendQuery.data
@@ -69,7 +61,7 @@ export function EmotionScoreEvolutionChart() {
                 </div>
                 <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
                     <SelectTrigger className="w-[160px] rounded-lg">
-                        <SelectValue placeholder="Últimos 7 dias" />
+                        <SelectValue placeholder="Últimos 90 dias" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl">
                         <SelectItem value="7d" className="rounded-lg">
@@ -80,6 +72,9 @@ export function EmotionScoreEvolutionChart() {
                         </SelectItem>
                         <SelectItem value="90d" className="rounded-lg">
                             Últimos 90 dias
+                        </SelectItem>
+                        <SelectItem value="all" className="rounded-lg">
+                            Todo o período
                         </SelectItem>
                     </SelectContent>
                 </Select>
@@ -123,27 +118,31 @@ export function EmotionScoreEvolutionChart() {
                         />
                         <ChartTooltip
                             cursor={false}
-                            content={<ChartTooltipContent indicator="line" />}
+                            content={
+                                <ChartTooltipContent 
+                                    indicator="line" 
+                                    labelFormatter={(value) => {
+                                        const date = new Date(value)
+                                        return date.toLocaleDateString("pt-BR", {
+                                            day: "numeric",
+                                            month: "short",
+                                            year: "numeric"
+                                        })
+                                    }}
+                                />
+                            }
+                            
                         />
                         <Line
                             dataKey="score"
                             type="natural"
                             stroke="var(--color-score)"
                             strokeWidth={2}
-                            dot={{
-                                fill: "var(--color-score)",
-                            }}
+                            dot={false}
                             activeDot={{
                                 r: 6,
                             }}
-                        >
-                            <LabelList
-                                position="top"
-                                offset={12}
-                                className="fill-foreground"
-                                fontSize={12}
-                            />
-                        </Line>
+                        />
                     </LineChart>
                 </ChartContainer>
             </CardContent>

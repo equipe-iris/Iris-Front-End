@@ -21,7 +21,7 @@ const chartConfig = {
 
 export function AverageTimeHandlingChart() {
 
-    const [timeRange, setTimeRange] = React.useState<TimeRange>("7d")
+    const [timeRange, setTimeRange] = React.useState<TimeRange>("90d")
 
     const ahtQuery = useAHT(timeRange)
     const chartData = ahtQuery.data
@@ -54,7 +54,7 @@ export function AverageTimeHandlingChart() {
                 </div>
                 <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
                     <SelectTrigger className="w-[160px] rounded-lg">
-                        <SelectValue placeholder="Últimos 7 dias" />
+                        <SelectValue placeholder="Últimos 90 dias" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl">
                         <SelectItem value="7d" className="rounded-lg">
@@ -65,6 +65,9 @@ export function AverageTimeHandlingChart() {
                         </SelectItem>
                         <SelectItem value="90d" className="rounded-lg">
                             Últimos 90 dias
+                        </SelectItem>
+                        <SelectItem value="all" className="rounded-lg">
+                            Todo o período
                         </SelectItem>
                     </SelectContent>
                 </Select>
