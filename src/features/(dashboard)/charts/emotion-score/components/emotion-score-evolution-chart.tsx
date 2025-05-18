@@ -19,6 +19,9 @@ import { TimeRange } from "@/types/api"
 import { useEmotionScoreEvolution } from "../api/get-emotion-score-evolution"
 import { Skeleton } from "@/components/ui/skeleton"
 
+import { parseISO, format } from "date-fns"
+import { ptBR } from "date-fns/locale"
+
 const chartConfig = {
     score: {
         label: "Satisfação",
@@ -119,19 +122,15 @@ export function EmotionScoreEvolutionChart() {
                         <ChartTooltip
                             cursor={false}
                             content={
-                                <ChartTooltipContent 
-                                    indicator="line" 
+                                <ChartTooltipContent
+                                    indicator="line"
                                     labelFormatter={(value) => {
-                                        const date = new Date(value)
-                                        return date.toLocaleDateString("pt-BR", {
-                                            day: "numeric",
-                                            month: "short",
-                                            year: "numeric"
-                                        })
+                                        const date = parseISO(value)
+                                        return format(date, "dd 'de' MMM 'de' yyyy", { locale: ptBR })
                                     }}
                                 />
                             }
-                            
+
                         />
                         <Line
                             dataKey="score"
