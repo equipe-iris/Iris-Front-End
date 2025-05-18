@@ -50,7 +50,7 @@ export const useUploadTicketsFile = ({ mutationConfig }: UploadTicketsFileOption
                 getProcessedFilesQueryOptions(),
                 getTodayTicketsQueryOptions(),
                 getTotalTicketsQueryOptions(),
-                getAHTQueryOptions("90d"),
+                getAHTQueryOptions(12),
                 getTicketsCategorizationQueryOptions(),
                 getEmotionScoreQueryOptions("all"),
                 getEmotionScoreEvolutionQueryOptions("90d"),
