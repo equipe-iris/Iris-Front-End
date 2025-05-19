@@ -1,8 +1,8 @@
 import {
     AverageTimeHandlingChart,
     CategoryChart,
-    EmotionScoreChart,
-    EmotionScoreEvolutionChart,
+    EmotionsChart,
+    EmotionEvolutionChart,
     FrequentTermsCard,
     TodaysTicketsCard,
     TotalTicketsCard
@@ -20,10 +20,10 @@ export default function DashboardPage() {
             <h1 className="text-2xl font-medium text-zinc-800 mb-8">Dashboard</h1>
             <div className="grid grid-cols-4 grid-rows-12 gap-5">
                 <TotalTicketsCard />
-                <EmotionScoreChart />
+                <EmotionsChart />
                 <CategoryChart />
                 <TodaysTicketsCard />
-                <EmotionScoreEvolutionChart />
+                <EmotionEvolutionChart />
                 <FrequentTermsCard />
                 <AverageTimeHandlingChart />
             </div>

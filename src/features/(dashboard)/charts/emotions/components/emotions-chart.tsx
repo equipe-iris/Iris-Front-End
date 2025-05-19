@@ -1,50 +1,60 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import React from "react";
-import { Label, Pie, PieChart } from "recharts";
-import { useTicketsCategories } from "../api/get-tickets-categorization";
-import { Skeleton } from "@/components/ui/skeleton";
-import { TimeRange } from "@/types/api";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import React from "react"
+import {
+    Label,
+    Pie,
+    PieChart,
+} from "recharts"
+
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { useEmotions } from "../api/get-emotions"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { TimeRange } from "@/types/api"
 
 const chartConfig = {
     tickets: {
         label: 'Chamados'
     },
-    duvida: {
-        label: 'Dúvida',
-        color: 'var(--chart-5)'
+    positivo: {
+        label: 'Positivo',
+        color: 'var(--positive)'
     },
-    reclamacao: {
-        label: 'Reclamação',
-        color: 'var(--chart-4)'
+    neutro: {
+        label: 'Neutro',
+        color: 'var(--neutral)'
     },
-    solicitacao: {
-        label: 'Solicitação',
-        color: 'var(--chart-1)'
+    negativo: {
+        label: 'Negativo',
+        color: 'var(--negative)'
     }
 } satisfies ChartConfig
 
-function CategoryChart() {
+export function EmotionsChart() {
 
     const [timeRange, setTimeRange] = React.useState<TimeRange>("all")
 
-    const ticketsCategoriesQuery = useTicketsCategories(timeRange)
-    const ticketsCategories = ticketsCategoriesQuery.data
+    const emotionsQuery = useEmotions(timeRange)
+    const emotionsData = emotionsQuery.data
 
     const totalTickets = React.useMemo(() => {
-        return ticketsCategories?.reduce((acc, curr) => acc + curr.quantity, 0) || 0
-    }, [ticketsCategories])
+        return emotionsData?.reduce((acc, curr) => acc + curr.quantity, 0) || 0
+    }, [emotionsData])
 
-    const isEmpty = !ticketsCategories || ticketsCategories.length === 0
+    const isEmpty = !emotionsData || emotionsData.length === 0
 
-    if (ticketsCategoriesQuery.isLoading) {
+    if (emotionsQuery.isLoading || emotionsQuery.isFetching) {
         return (
-            <Card className="flex flex-col rounded-lg shadow-lg col-span-1 row-span-4">
+            <Card className="flex flex-col col-span-2 row-span-4">
                 <CardHeader className="items-center pb-0">
-                    <Skeleton className="h-8 w-1/3" />
+                    <Skeleton className="h-6 w-1/3" />
                 </CardHeader>
                 <CardContent className="flex-1 pb-0">
                     <ChartContainer
@@ -60,9 +70,9 @@ function CategoryChart() {
 
     if (isEmpty) {
         return (
-            <Card className="flex flex-col rounded-lg shadow-lg col-span-1 row-span-4">
+            <Card className="flex flex-col rounded-lg shadow-lg col-span-2 row-span-4">
                 <CardHeader className="flex flex-col gap-3">
-                    <CardTitle>Categorização dos chamados</CardTitle>
+                    <CardTitle>Emoções nos chamados</CardTitle>
                     <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
                         <SelectTrigger className="w-[160px] rounded-lg">
                             <SelectValue placeholder="Todo o período" />
@@ -93,11 +103,11 @@ function CategoryChart() {
     }
 
     return (
-        <Card className="flex flex-col rounded-lg shadow-lg col-span-1 row-span-4">
-            <CardHeader className="flex flex-col gap-3">
-
-                <CardTitle>Categorização dos chamados</CardTitle>
-
+        <Card className="flex flex-col col-span-2 row-span-4">
+            <CardHeader className="flex items-center justify-between pb-0">
+                <div className="grid gap-1">
+                    <CardTitle>Emoções nos chamados</CardTitle>
+                </div>
                 <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
                     <SelectTrigger className="w-[160px] rounded-lg">
                         <SelectValue placeholder="Todo o período" />
@@ -122,7 +132,6 @@ function CategoryChart() {
                 <ChartContainer
                     config={chartConfig}
                     className="mx-auto aspect-square max-h-[300px] w-full max-w-[350px]"
-
                 >
                     <PieChart>
                         <ChartTooltip
@@ -130,9 +139,9 @@ function CategoryChart() {
                             content={<ChartTooltipContent hideLabel />}
                         />
                         <Pie
-                            data={ticketsCategories}
+                            data={emotionsData}
                             dataKey="quantity"
-                            nameKey="category"
+                            nameKey="emotion"
                             innerRadius={60}
 
                             label={({ value }) => {
@@ -171,7 +180,7 @@ function CategoryChart() {
                             />
                         </Pie>
                         <ChartLegend
-                            content={<ChartLegendContent nameKey="category" />}
+                            content={<ChartLegendContent nameKey="emotion" />}
                         />
                     </PieChart>
                 </ChartContainer>
@@ -179,5 +188,3 @@ function CategoryChart() {
         </Card>
     )
 }
-
-export { CategoryChart }

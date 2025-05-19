@@ -2,7 +2,7 @@
 
 import React from "react"
 
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
+import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from "recharts"
 import {
     Card,
     CardContent, CardDescription, CardHeader,
@@ -16,27 +16,67 @@ import {
 } from "@/components/ui/chart"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { TimeRange } from "@/types/api"
-import { useEmotionScoreEvolution } from "../api/get-emotion-score-evolution"
+import { useEmotionEvolution } from "../api/get-emotion-evolution"
 import { Skeleton } from "@/components/ui/skeleton"
 
 import { parseISO, format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 
 const chartConfig = {
-    score: {
-        label: "Satisfação",
-        color: "var(--chart-3)",
-    }
+    positivo: {
+        label: "Positivo",
+        color: "var(--positive)",
+    },
+    neutro: {
+        label: "Neutro",
+        color: "var(--neutral)",
+    },
+    negativo: {
+        label: "Negativo",
+        color: "var(--negative)",
+    },
 } satisfies ChartConfig
 
-export function EmotionScoreEvolutionChart() {
+type EmotionKey = "positivo" | "neutro" | "negativo";
+
+export function EmotionEvolutionChart() {
 
     const [timeRange, setTimeRange] = React.useState<TimeRange>("90d")
 
-    const emotionScoreTrendQuery = useEmotionScoreEvolution(timeRange)
-    const chartData = emotionScoreTrendQuery.data
+    const emotionTrendQuery = useEmotionEvolution(timeRange)
+    const emotionTrendData = emotionTrendQuery.data
+    const isEmpty = !emotionTrendData || emotionTrendData.length === 0
 
-    if (emotionScoreTrendQuery.isLoading || emotionScoreTrendQuery.isFetching) {
+
+    const [opacity, setOpacity] = React.useState<Record<EmotionKey, number>>({
+        positivo: 1,
+        neutro: 1,
+        negativo: 1,
+    });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function handleMouseEnter(o: any) {
+        const dataKey = o?.dataKey;
+        if (dataKey === "positivo" || dataKey === "neutro" || dataKey === "negativo") {
+            setOpacity((op) => {
+                const newOpacity = { ...op };
+                (Object.keys(newOpacity) as EmotionKey[]).forEach((key) => {
+                    newOpacity[key] = key === dataKey ? 1 : 0.3;
+                });
+                return newOpacity;
+            });
+        }
+    }
+
+    function handleMouseLeave() {
+        setOpacity({
+            positivo: 1,
+            neutro: 1,
+            negativo: 1,
+        });
+    };
+
+    if (emotionTrendQuery.isLoading || emotionTrendQuery.isFetching) {
         return (
             <Card className="flex flex-col col-span-3 row-span-4">
                 <CardHeader className="items-center pb-0">
@@ -50,6 +90,43 @@ export function EmotionScoreEvolutionChart() {
                     >
                         <Skeleton className="h-full w-full" />
                     </ChartContainer>
+                </CardContent>
+            </Card>
+        )
+    }
+
+    if (isEmpty) {
+        return (
+            <Card className="flex flex-col col-span-3 row-span-4">
+                <CardHeader className="flex items-center justify-between pb-0">
+                    <div className="grid gap-1">
+                        <CardTitle>Tendência de Satisfação do Cliente</CardTitle>
+                        <CardDescription>Evolução do score de satisfação dos clientes ao longo do tempo</CardDescription>
+                    </div>
+                    <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
+                        <SelectTrigger className="w-[160px] rounded-lg">
+                            <SelectValue placeholder="Últimos 90 dias" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl">
+                            <SelectItem value="7d" className="rounded-lg">
+                                Últimos 7 dias
+                            </SelectItem>
+                            <SelectItem value="30d" className="rounded-lg">
+                                Últimos 30 dias
+                            </SelectItem>
+                            <SelectItem value="90d" className="rounded-lg">
+                                Últimos 90 dias
+                            </SelectItem>
+                            <SelectItem value="all" className="rounded-lg">
+                                Todo o período
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+                </CardHeader>
+                <CardContent className="flex-1 flex items-center justify-center">
+                    <span className="text-muted-foreground text-center">
+                        Nenhum dado encontrado para o filtro selecionado.
+                    </span>
                 </CardContent>
             </Card>
         )
@@ -86,7 +163,7 @@ export function EmotionScoreEvolutionChart() {
                 <ChartContainer config={chartConfig} className="w-full max-h-[300px]">
                     <LineChart
                         accessibilityLayer
-                        data={chartData}
+                        data={emotionTrendData}
                         margin={{
                             top: 20,
                             left: 12,
@@ -95,14 +172,13 @@ export function EmotionScoreEvolutionChart() {
                     >
                         <CartesianGrid vertical={false} />
                         <YAxis
-                            domain={[0, 100]}
                             axisLine={false}
                             tickLine={false}
                             tickMargin={10}
                             label={{
-                                value: "Satisfação",
+                                value: "Quantidade",
                                 angle: -90,
-                                position: "insideLeft",
+                                position: "left",
                                 style: { textAnchor: "middle" },
                             }}
                         />
@@ -132,15 +208,39 @@ export function EmotionScoreEvolutionChart() {
                             }
 
                         />
+                        <Legend onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
                         <Line
-                            dataKey="score"
+                            dataKey="positivo"
                             type="natural"
-                            stroke="var(--color-score)"
+                            stroke="var(--positive)"
                             strokeWidth={2}
                             dot={false}
                             activeDot={{
                                 r: 6,
                             }}
+                            opacity={opacity.positivo}
+                        />
+                        <Line
+                            dataKey="neutro"
+                            type="natural"
+                            stroke="var(--neutral)"
+                            strokeWidth={2}
+                            dot={false}
+                            activeDot={{
+                                r: 6,
+                            }}
+                            opacity={opacity.neutro}
+                        />
+                        <Line
+                            dataKey="negativo"
+                            type="natural"
+                            stroke="var(--negative)"
+                            strokeWidth={2}
+                            dot={false}
+                            activeDot={{
+                                r: 6,
+                            }}
+                            opacity={opacity.negativo}
                         />
                     </LineChart>
                 </ChartContainer>
