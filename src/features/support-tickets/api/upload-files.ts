@@ -8,8 +8,8 @@ import { getTodayTicketsQueryOptions } from '@/features/(dashboard)/cards/ticket
 import { getTotalTicketsQueryOptions } from '@/features/(dashboard)/cards/tickets/api/get-total-tickets';
 import { getAHTQueryOptions } from '@/features/(dashboard)/charts/average-time-handling/api/get-average-time-handling';
 import { getTicketsCategorizationQueryOptions } from '@/features/(dashboard)/charts/categorization/api/get-tickets-categorization';
-import { getEmotionScoreQueryOptions } from '@/features/(dashboard)/charts/emotion-score/api/get-emotion-score';
-import { getEmotionScoreEvolutionQueryOptions } from '@/features/(dashboard)/charts/emotion-score/api/get-emotion-score-evolution';
+import { getEmotionScoreQueryOptions } from '@/features/(dashboard)/charts/emotions/api/get-emotions';
+import { getEmotionScoreEvolutionQueryOptions } from '@/features/(dashboard)/charts/emotions/api/get-emotion-evolution';
 import { getTicketsQueryOptions } from './get-tickets';
 import { getProcessedFilesQueryOptions } from './get-processed-files';
 import { sleep } from '@/lib/utils';

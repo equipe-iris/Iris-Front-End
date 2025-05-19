@@ -4,11 +4,17 @@ export interface CategoryChartData {
     fill?: string
 }
 
-export interface EmotionScoreChartData {
-    date?: string
-    score: number
-    ticket_count?: number
+export interface EmotionsChartData {
+    emotion: string
+    quantity: number
     fill?: string
+}
+
+export interface EmotionEvolutionData {
+    date: string
+    positivo: number
+    neutro: number
+    negativo: number
 }
 
 export interface AHTChartData {
