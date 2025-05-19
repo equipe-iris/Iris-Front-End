@@ -6,6 +6,8 @@ import React from "react";
 import { Label, Pie, PieChart } from "recharts";
 import { useTicketsCategories } from "../api/get-tickets-categorization";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TimeRange } from "@/types/api";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const chartConfig = {
     tickets: {
@@ -27,12 +29,16 @@ const chartConfig = {
 
 function CategoryChart() {
 
-    const ticketsCategoriesQuery = useTicketsCategories()
+    const [timeRange, setTimeRange] = React.useState<TimeRange>("all")
+
+    const ticketsCategoriesQuery = useTicketsCategories(timeRange)
     const ticketsCategories = ticketsCategoriesQuery.data
 
     const totalTickets = React.useMemo(() => {
         return ticketsCategories?.reduce((acc, curr) => acc + curr.quantity, 0) || 0
     }, [ticketsCategories])
+
+    const isEmpty = !ticketsCategories || ticketsCategories.length === 0
 
     if (ticketsCategoriesQuery.isLoading) {
         return (
@@ -52,10 +58,66 @@ function CategoryChart() {
         )
     }
 
+    if (isEmpty) {
+        return (
+            <Card className="flex flex-col rounded-lg shadow-lg col-span-1 row-span-4">
+                <CardHeader className="flex flex-col gap-3">
+                    <CardTitle>Categorização dos chamados</CardTitle>
+                    <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
+                        <SelectTrigger className="w-[160px] rounded-lg">
+                            <SelectValue placeholder="Todo o período" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl">
+                            <SelectItem value="today" className="rounded-lg">
+                                Hoje
+                            </SelectItem>
+                            <SelectItem value="7d" className="rounded-lg">
+                                Últimos 7 dias
+                            </SelectItem>
+                            <SelectItem value="30d" className="rounded-lg">
+                                Últimos 30 dias
+                            </SelectItem>
+                            <SelectItem value="all" className="rounded-lg">
+                                Todo o período
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+                </CardHeader>
+                <CardContent className="flex-1 flex items-center justify-center">
+                    <span className="text-muted-foreground text-center">
+                        Nenhum dado encontrado para o filtro selecionado.
+                    </span>
+                </CardContent>
+            </Card>
+        );
+
+    }
+
     return (
         <Card className="flex flex-col rounded-lg shadow-lg col-span-1 row-span-4">
-            <CardHeader className="items-center pb-0">
-                <CardTitle>Chamados por Categoria</CardTitle>
+            <CardHeader className="flex flex-col gap-3">
+
+                <CardTitle>Categorização dos chamados</CardTitle>
+
+                <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
+                    <SelectTrigger className="w-[160px] rounded-lg">
+                        <SelectValue placeholder="Todo o período" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl">
+                        <SelectItem value="today" className="rounded-lg">
+                            Hoje
+                        </SelectItem>
+                        <SelectItem value="7d" className="rounded-lg">
+                            Últimos 7 dias
+                        </SelectItem>
+                        <SelectItem value="30d" className="rounded-lg">
+                            Últimos 30 dias
+                        </SelectItem>
+                        <SelectItem value="all" className="rounded-lg">
+                            Todo o período
+                        </SelectItem>
+                    </SelectContent>
+                </Select>
             </CardHeader>
             <CardContent className="flex-1 pb-0">
                 <ChartContainer
@@ -72,7 +134,11 @@ function CategoryChart() {
                             dataKey="quantity"
                             nameKey="category"
                             innerRadius={60}
-                            strokeWidth={5}
+
+                            label={({ value }) => {
+                                const percent = totalTickets > 0 ? (value / totalTickets) * 100 : 0;
+                                return `${percent.toFixed(1)}%`;
+                            }}
                         >
                             <Label
                                 content={({ viewBox }) => {
@@ -105,7 +171,7 @@ function CategoryChart() {
                             />
                         </Pie>
                         <ChartLegend
-                            content={<ChartLegendContent nameKey="category"/>}
+                            content={<ChartLegendContent nameKey="category" />}
                         />
                     </PieChart>
                 </ChartContainer>
