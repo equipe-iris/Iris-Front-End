@@ -8,8 +8,8 @@ import { getTodayTicketsQueryOptions } from '@/features/(dashboard)/cards/ticket
 import { getTotalTicketsQueryOptions } from '@/features/(dashboard)/cards/tickets/api/get-total-tickets';
 import { getAHTQueryOptions } from '@/features/(dashboard)/charts/average-time-handling/api/get-average-time-handling';
 import { getTicketsCategorizationQueryOptions } from '@/features/(dashboard)/charts/categorization/api/get-tickets-categorization';
-import { getEmotionScoreQueryOptions } from '@/features/(dashboard)/charts/emotions/api/get-emotions';
-import { getEmotionScoreEvolutionQueryOptions } from '@/features/(dashboard)/charts/emotions/api/get-emotion-evolution';
+import { getEmotionsQueryOptions } from '@/features/(dashboard)/charts/emotions/api/get-emotions';
+import { getEmotionEvolutionQueryOptions } from '@/features/(dashboard)/charts/emotions/api/get-emotion-evolution';
 import { getTicketsQueryOptions } from './get-tickets';
 import { getProcessedFilesQueryOptions } from './get-processed-files';
 import { sleep } from '@/lib/utils';
@@ -52,8 +52,8 @@ export const useUploadTicketsFile = ({ mutationConfig }: UploadTicketsFileOption
                 getTotalTicketsQueryOptions(),
                 getAHTQueryOptions(12),
                 getTicketsCategorizationQueryOptions("all"),
-                getEmotionScoreQueryOptions("all"),
-                getEmotionScoreEvolutionQueryOptions("90d"),
+                getEmotionsQueryOptions("all"),
+                getEmotionEvolutionQueryOptions("90d"),
                 getTicketsQueryOptions()
             ];
             await Promise.all(
