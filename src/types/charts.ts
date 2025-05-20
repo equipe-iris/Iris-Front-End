@@ -17,6 +17,11 @@ export interface EmotionEvolutionData {
     negativo: number
 }
 
+export interface DailyTicketsData {
+    date: string
+    quantity: number
+}
+
 export interface AHTChartData {
     date: string
     average_time: number

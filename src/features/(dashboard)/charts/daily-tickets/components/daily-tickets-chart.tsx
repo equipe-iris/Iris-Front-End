@@ -2,7 +2,7 @@
 
 import React from "react"
 
-import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from "recharts"
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 import {
     Card,
     CardContent, CardDescription, CardHeader,
@@ -16,67 +16,29 @@ import {
 } from "@/components/ui/chart"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { TimeRange } from "@/types/api"
-import { useEmotionEvolution } from "../api/get-emotion-evolution"
+import { useDailyTickets } from "../api/get-daily-tickets"
 import { Skeleton } from "@/components/ui/skeleton"
 
 import { parseISO, format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 
 const chartConfig = {
-    positivo: {
-        label: "Positivo",
-        color: "var(--positive)",
-    },
-    neutro: {
-        label: "Neutro",
-        color: "var(--neutral)",
-    },
-    negativo: {
-        label: "Negativo",
-        color: "var(--negative)",
+    quantity: {
+        label: "Chamados",
+        color: "var(--chart-3)",
     },
 } satisfies ChartConfig
 
-type EmotionKey = "positivo" | "neutro" | "negativo";
-
-export function EmotionEvolutionChart() {
+export function DailyTicketsChart() {
 
     const [timeRange, setTimeRange] = React.useState<TimeRange>("90d")
 
-    const emotionTrendQuery = useEmotionEvolution(timeRange)
-    const emotionTrendData = emotionTrendQuery.data
-    const isEmpty = !emotionTrendData || emotionTrendData.length === 0
+    const ticketsTrendQuery = useDailyTickets(timeRange)
+    const ticketsTrendData = ticketsTrendQuery.data
+    const isEmpty = !ticketsTrendData || ticketsTrendData.length === 0
 
 
-    const [opacity, setOpacity] = React.useState<Record<EmotionKey, number>>({
-        positivo: 1,
-        neutro: 1,
-        negativo: 1,
-    });
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function handleMouseEnter(o: any) {
-        const dataKey = o?.dataKey;
-        if (dataKey === "positivo" || dataKey === "neutro" || dataKey === "negativo") {
-            setOpacity((op) => {
-                const newOpacity = { ...op };
-                (Object.keys(newOpacity) as EmotionKey[]).forEach((key) => {
-                    newOpacity[key] = key === dataKey ? 1 : 0.3;
-                });
-                return newOpacity;
-            });
-        }
-    }
-
-    function handleMouseLeave() {
-        setOpacity({
-            positivo: 1,
-            neutro: 1,
-            negativo: 1,
-        });
-    };
-
-    if (emotionTrendQuery.isLoading || emotionTrendQuery.isFetching) {
+    if (ticketsTrendQuery.isLoading || ticketsTrendQuery.isFetching) {
         return (
             <Card className="flex flex-col col-span-7 row-span-4">
                 <CardHeader className="items-center pb-0">
@@ -100,8 +62,8 @@ export function EmotionEvolutionChart() {
             <Card className="flex flex-col col-span-7 row-span-4">
                 <CardHeader className="flex items-center justify-between pb-0">
                     <div className="grid gap-1">
-                        <CardTitle>Tendência de Satisfação do Cliente</CardTitle>
-                        <CardDescription>Evolução do score de satisfação dos clientes ao longo do tempo</CardDescription>
+                        <CardTitle>Trafego diário de chamados</CardTitle>
+                        <CardDescription>Quantidade de chamados abertos diariamente num determinado período.</CardDescription>
                     </div>
                     <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
                         <SelectTrigger className="w-[160px] rounded-lg">
@@ -136,8 +98,8 @@ export function EmotionEvolutionChart() {
         <Card className="col-span-7 row-span-4">
             <CardHeader className="flex items-center justify-between pb-0">
                 <div className="grid gap-1">
-                    <CardTitle>Tendência de Satisfação do Cliente</CardTitle>
-                    <CardDescription>Evolução do score de satisfação dos clientes ao longo do tempo</CardDescription>
+                    <CardTitle>Trafego diário de chamados</CardTitle>
+                    <CardDescription>Quantidade de chamados abertos diariamente num determinado período.</CardDescription>
                 </div>
                 <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
                     <SelectTrigger className="w-[160px] rounded-lg">
@@ -163,7 +125,7 @@ export function EmotionEvolutionChart() {
                 <ChartContainer config={chartConfig} className="w-full max-h-[300px]">
                     <LineChart
                         accessibilityLayer
-                        data={emotionTrendData}
+                        data={ticketsTrendData}
                         margin={{
                             top: 20,
                             left: 12,
@@ -208,39 +170,15 @@ export function EmotionEvolutionChart() {
                             }
 
                         />
-                        <Legend onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
                         <Line
-                            dataKey="positivo"
+                            dataKey="quantity"
                             type="natural"
-                            stroke="var(--positive)"
+                            stroke="var(--chart-3)"
                             strokeWidth={2}
                             dot={false}
                             activeDot={{
                                 r: 6,
                             }}
-                            opacity={opacity.positivo}
-                        />
-                        <Line
-                            dataKey="neutro"
-                            type="natural"
-                            stroke="var(--neutral)"
-                            strokeWidth={2}
-                            dot={false}
-                            activeDot={{
-                                r: 6,
-                            }}
-                            opacity={opacity.neutro}
-                        />
-                        <Line
-                            dataKey="negativo"
-                            type="natural"
-                            stroke="var(--negative)"
-                            strokeWidth={2}
-                            dot={false}
-                            activeDot={{
-                                r: 6,
-                            }}
-                            opacity={opacity.negativo}
                         />
                     </LineChart>
                 </ChartContainer>

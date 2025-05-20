@@ -13,6 +13,7 @@ import { getEmotionEvolutionQueryOptions } from '@/features/(dashboard)/charts/e
 import { getTicketsQueryOptions } from './get-tickets';
 import { getProcessedFilesQueryOptions } from './get-processed-files';
 import { sleep } from '@/lib/utils';
+import { getDailyTicketsQueryOptions } from '@/features/(dashboard)/charts/daily-tickets/api/get-daily-tickets';
 
 
 export const ticketsUploadSchema = z.object({
@@ -54,7 +55,8 @@ export const useUploadTicketsFile = ({ mutationConfig }: UploadTicketsFileOption
                 getTicketsCategorizationQueryOptions("all"),
                 getEmotionsQueryOptions("all"),
                 getEmotionEvolutionQueryOptions("90d"),
-                getTicketsQueryOptions()
+                getTicketsQueryOptions(),
+                getDailyTicketsQueryOptions("90d"),
             ];
             await Promise.all(
                 queriesToInvalidate.map((queryOptions) => {
