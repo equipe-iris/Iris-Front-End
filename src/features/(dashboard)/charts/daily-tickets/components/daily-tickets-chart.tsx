@@ -122,7 +122,7 @@ export function DailyTicketsChart() {
                 </Select>
             </CardHeader>
             <CardContent>
-                <ChartContainer config={chartConfig} className="w-full max-h-[300px]">
+                <ChartContainer config={chartConfig} className="w-full max-h-[350px]">
                     <LineChart
                         accessibilityLayer
                         data={ticketsTrendData}

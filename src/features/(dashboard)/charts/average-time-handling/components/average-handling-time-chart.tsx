@@ -128,7 +128,7 @@ export function AverageTimeHandlingChart() {
             <CardContent className="px-2 sm:p-6">
                 <ChartContainer
                     config={chartConfig}
-                    className="aspect-auto h-[250px] w-full"
+                    className="w-full max-h-[300px]"
                 >
                     <BarChart
                         accessibilityLayer

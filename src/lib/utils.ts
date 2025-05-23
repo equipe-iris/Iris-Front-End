@@ -37,6 +37,11 @@ export function getDateRange(timeRange: TimeRange): DateRange {
   }
 }
 
+export function getToday() {
+  const today = new Date()
+  return format(today, "yyyy-MM-dd")
+}
+
 export function formatBytes(
   bytes: number,
   opts: {

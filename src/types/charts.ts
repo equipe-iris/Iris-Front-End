@@ -28,9 +28,12 @@ export interface AHTChartData {
 }
 
 export interface TicketCardsData {
-    total_tickets: number
-    tickets_today: number
+    total: number
+    open: number
+    closed: number
 }
+
+
 
 export interface FrequentTermsData {
     term: string
