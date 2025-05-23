@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { getPendingFilesQueryOptions } from './get-pending-files';
-import { getTodayTicketsQueryOptions } from '@/features/(dashboard)/cards/tickets/api/get-today-tickets';
+import { getTicketsByDateQueryOptions } from '@/features/(dashboard)/cards/tickets/api/get-tickets-by-date';
 import { getTotalTicketsQueryOptions } from '@/features/(dashboard)/cards/tickets/api/get-total-tickets';
 import { getAHTQueryOptions } from '@/features/(dashboard)/charts/average-time-handling/api/get-average-time-handling';
 import { getTicketsCategorizationQueryOptions } from '@/features/(dashboard)/charts/categorization/api/get-tickets-categorization';
@@ -12,7 +12,7 @@ import { getEmotionsQueryOptions } from '@/features/(dashboard)/charts/emotions/
 import { getEmotionEvolutionQueryOptions } from '@/features/(dashboard)/charts/emotions/api/get-emotion-evolution';
 import { getTicketsQueryOptions } from './get-tickets';
 import { getProcessedFilesQueryOptions } from './get-processed-files';
-import { sleep } from '@/lib/utils';
+import { getToday, sleep } from '@/lib/utils';
 import { getDailyTicketsQueryOptions } from '@/features/(dashboard)/charts/daily-tickets/api/get-daily-tickets';
 
 
@@ -46,10 +46,11 @@ export const useUploadTicketsFile = ({ mutationConfig }: UploadTicketsFileOption
             await queryClient.invalidateQueries({ queryKey: getPendingFilesQueryOptions().queryKey });
         },
         onSuccess: async (...args) => {
+            const today = getToday()
             const queriesToInvalidate = [
                 getPendingFilesQueryOptions(),
                 getProcessedFilesQueryOptions(),
-                getTodayTicketsQueryOptions(),
+                getTicketsByDateQueryOptions(today),
                 getTotalTicketsQueryOptions(),
                 getAHTQueryOptions(12),
                 getTicketsCategorizationQueryOptions("all"),

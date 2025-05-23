@@ -101,7 +101,7 @@ export function EmotionEvolutionChart() {
                 <CardHeader className="flex items-center justify-between pb-0">
                     <div className="grid gap-1">
                         <CardTitle>Tendência de Satisfação do Cliente</CardTitle>
-                        <CardDescription>Evolução do score de satisfação dos clientes ao longo do tempo</CardDescription>
+                        <CardDescription>Evolução da distribuição das emoções dos clientes ao longo do tempo.</CardDescription>
                     </div>
                     <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
                         <SelectTrigger className="w-[160px] rounded-lg">
@@ -137,7 +137,7 @@ export function EmotionEvolutionChart() {
             <CardHeader className="flex items-center justify-between pb-0">
                 <div className="grid gap-1">
                     <CardTitle>Tendência de Satisfação do Cliente</CardTitle>
-                    <CardDescription>Evolução do score de satisfação dos clientes ao longo do tempo</CardDescription>
+                    <CardDescription>Evolução da distribuição das emoções dos clientes ao longo do tempo.</CardDescription>
                 </div>
                 <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
                     <SelectTrigger className="w-[160px] rounded-lg">
@@ -160,7 +160,7 @@ export function EmotionEvolutionChart() {
                 </Select>
             </CardHeader>
             <CardContent>
-                <ChartContainer config={chartConfig} className="w-full max-h-[300px]">
+                <ChartContainer config={chartConfig} className="w-full max-h-[350px]">
                     <LineChart
                         accessibilityLayer
                         data={emotionTrendData}
