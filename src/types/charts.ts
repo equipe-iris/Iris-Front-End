@@ -33,8 +33,6 @@ export interface TicketCardsData {
     closed: number
 }
 
-
-
 export interface FrequentTermsData {
     term: string
     count: number
