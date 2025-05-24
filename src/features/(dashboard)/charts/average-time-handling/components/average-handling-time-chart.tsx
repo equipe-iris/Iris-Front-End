@@ -23,6 +23,7 @@ import { toast } from "sonner"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useAHTGoal } from "../api/get-ath-goal"
+import { AHTDrawer } from "./average-time-handling-drawer"
 
 function formatMinutesToGraphTooltip(minutes: number): string {
     const hours = Math.floor(minutes / 60);
@@ -56,12 +57,19 @@ const chartConfig = {
 export function AverageTimeHandlingChart() {
 
     const [timeRange, setTimeRange] = React.useState<number>(12)
+    const [selectedDate, setSelectedDate] = React.useState<string | undefined>(undefined)
+    const [openDrawer, setOpenDrawer] = React.useState(false)
 
     const ahtQuery = useAHT(timeRange)
     const chartData = ahtQuery.data
 
     const ahtGoalQuery = useAHTGoal()
     const ahtGoal = ahtGoalQuery.data
+
+    function handleMonthClick(date: string) {
+        setSelectedDate(date)
+        setOpenDrawer(true)
+    }
 
     if (ahtQuery.isLoading || ahtQuery.isFetching) {
         return (
@@ -83,112 +91,121 @@ export function AverageTimeHandlingChart() {
     }
 
     return (
-        <Card className="col-span-7 row-span-4">
-            <CardHeader className="flex items-center justify-between pb-0">
-                <div className="grid gap-1">
-                    <CardTitle>Tempo médio de encerramento</CardTitle>
-                    <CardDescription>Média do tempo levado para encerrar chamados de cada mês.</CardDescription>
-                </div>
-                <div className="flex items-center gap-4">
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <div className="p-2 border rounded-lg cursor-pointer hover:bg-accent-foreground/5 transition-colors group">
-                                <Settings className="size-4 text-muted-foreground group-hover:text-primary" />
-                            </div>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>Atualizar meta de tempo</DialogTitle>
-                                <DialogDescription>Configurar valor de referência para o tempo médio de encerramento esperado.</DialogDescription>
-                            </DialogHeader>
-                            <AHTGoalForm />
-                        </DialogContent>
-                    </Dialog>
-                    <Select value={String(timeRange)} onValueChange={(val) => setTimeRange(Number(val))}>
-                        <SelectTrigger className="w-[160px] rounded-lg">
-                            <SelectValue placeholder="Últimos 12 Meses" />
-                        </SelectTrigger>
-                        <SelectContent className="rounded-xl">
-                            <SelectItem value="1" className="rounded-lg">
-                                Último mês
-                            </SelectItem>
-                            <SelectItem value="6" className="rounded-lg">
-                                Últimos 6 meses
-                            </SelectItem>
-                            <SelectItem value="12" className="rounded-lg">
-                                Últimos 12 meses
-                            </SelectItem>
-                            <SelectItem value="0" className="rounded-lg">
-                                Todo o período
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-            </CardHeader>
-            <CardContent className="px-2 sm:p-6">
-                <ChartContainer
-                    config={chartConfig}
-                    className="w-full max-h-[300px]"
-                >
-                    <BarChart
-                        accessibilityLayer
-                        data={chartData}
-                        margin={{
-                            left: 12,
-                            right: 12,
-                        }}
+        <>
+            <Card className="col-span-7 row-span-4">
+                <CardHeader className="flex items-center justify-between pb-0">
+                    <div className="grid gap-1">
+                        <CardTitle>Tempo médio de encerramento</CardTitle>
+                        <CardDescription>Média do tempo levado para encerrar chamados de cada mês.</CardDescription>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <div className="p-2 border rounded-lg cursor-pointer hover:bg-accent-foreground/5 transition-colors group">
+                                    <Settings className="size-4 text-muted-foreground group-hover:text-primary" />
+                                </div>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>Atualizar meta de tempo</DialogTitle>
+                                    <DialogDescription>Configurar valor de referência para o tempo médio de encerramento esperado.</DialogDescription>
+                                </DialogHeader>
+                                <AHTGoalForm />
+                            </DialogContent>
+                        </Dialog>
+                        <Select value={String(timeRange)} onValueChange={(val) => setTimeRange(Number(val))}>
+                            <SelectTrigger className="w-[160px] rounded-lg">
+                                <SelectValue placeholder="Últimos 12 Meses" />
+                            </SelectTrigger>
+                            <SelectContent className="rounded-xl">
+                                <SelectItem value="1" className="rounded-lg">
+                                    Último mês
+                                </SelectItem>
+                                <SelectItem value="6" className="rounded-lg">
+                                    Últimos 6 meses
+                                </SelectItem>
+                                <SelectItem value="12" className="rounded-lg">
+                                    Últimos 12 meses
+                                </SelectItem>
+                                <SelectItem value="0" className="rounded-lg">
+                                    Todo o período
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </CardHeader>
+                <CardContent className="px-2 sm:p-6">
+                    <ChartContainer
+                        config={chartConfig}
+                        className="w-full max-h-[300px]"
                     >
-                        <CartesianGrid vertical={false} />
-                        <YAxis
-                            axisLine={false}
-                            tickLine={false}
-                            tickMargin={10}
-                            tickFormatter={formatMinutesToGraphAxis}
-                            tickSize={2}
-                        />
-                        <XAxis
-                            dataKey="date"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={8}
-                            minTickGap={32}
-                            tickFormatter={(value) => {
-                                const date = parseISO(value)
-                                return format(date, "MM/yyyy", { locale: ptBR })
+                        <BarChart
+                            accessibilityLayer
+                            data={chartData}
+                            margin={{
+                                left: 12,
+                                right: 12,
                             }}
-                        />
-                        <ChartTooltip
-                            content={
-                                <ChartTooltipContent
-                                    className="w-[150px]"
-                                    nameKey="average_time"
-                                    labelFormatter={(value) => {
-                                        const date = parseISO(value)
-                                        return format(date, "MMMM 'de' yyyy", { locale: ptBR })
-                                    }}
-                                    formatter={(value) => `Tempo médio: ${formatMinutesToGraphTooltip(Number(value))}`}
-                                />
-                            }
-                        />
-                        <Bar dataKey="average_time" fill={`oklch(71.05% 0.127578 181.6019)`} />
-                        {ahtGoal ? (
-                            <ReferenceLine
-                                y={ahtGoal}
-                                stroke="red"
-                                strokeDasharray="10 8"
-                                label={{
-                                    value: `Meta: Máximo de ${formatMinutesToGraphTooltip(ahtGoal)}`,
-                                    position: "top",
-                                    fill: "red",
-                                    fontSize: 14,
-                                    fontWeight: 500
+                        >
+                            <CartesianGrid vertical={false} />
+                            <YAxis
+                                axisLine={false}
+                                tickLine={false}
+                                tickMargin={10}
+                                tickFormatter={formatMinutesToGraphAxis}
+                                tickSize={2}
+                            />
+                            <XAxis
+                                dataKey="date"
+                                tickLine={false}
+                                axisLine={false}
+                                tickMargin={8}
+                                minTickGap={32}
+                                tickFormatter={(value) => {
+                                    const date = parseISO(value)
+                                    return format(date, "MM/yyyy", { locale: ptBR })
                                 }}
                             />
-                        ) : null}
-                    </BarChart>
-                </ChartContainer>
-            </CardContent>
-        </Card>
+                            <ChartTooltip
+                                content={
+                                    <ChartTooltipContent
+                                        className="w-[150px]"
+                                        nameKey="average_time"
+                                        labelFormatter={(value) => {
+                                            const date = parseISO(value)
+                                            return format(date, "MMMM 'de' yyyy", { locale: ptBR })
+                                        }}
+                                        formatter={(value) => `Tempo médio: ${formatMinutesToGraphTooltip(Number(value))}`}
+                                    />
+                                }
+                            />
+                            <Bar
+                                dataKey="average_time"
+                                fill={`oklch(71.05% 0.127578 181.6019)`}
+                                style={{ cursor: "pointer" }}
+                                onClick={(val) => handleMonthClick(val?.date as string)}
+                            />
+                            {ahtGoal ? (
+                                <ReferenceLine
+                                    y={ahtGoal}
+                                    stroke="red"
+                                    strokeDasharray="10 8"
+                                    label={{
+                                        value: `Meta: Máximo de ${formatMinutesToGraphTooltip(ahtGoal)}`,
+                                        position: "top",
+                                        fill: "red",
+                                        fontSize: 14,
+                                        fontWeight: 500
+                                    }}
+                                />
+                            ) : null}
+                        </BarChart>
+                    </ChartContainer>
+                </CardContent>
+            </Card>
+
+            <AHTDrawer open={openDrawer} onOpenChange={setOpenDrawer} date={selectedDate} />
+        </>
     )
 }
 

@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { TicketCategoryCell, TicketEmotionCell, TicketStartDateCell, TicketStatusCell } from "@/components/tickets-table-cells";
+import { TicketCategoryCell, TicketEmotionCell, TicketStartDateCell, TicketStatusCell } from "./tickets-table-cells";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { Ticket } from "@/types/api";
@@ -15,7 +15,7 @@ export const columns: ColumnDef<Ticket>[] = [
     {
         accessorKey: "title",
         header: "Título",
-        size: 300
+        size: 150
     },
     {
         accessorKey: "service_rating",

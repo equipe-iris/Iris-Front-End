@@ -3,7 +3,6 @@ import {
     CategoryChart,
     EmotionsChart,
     EmotionEvolutionChart,
-    FrequentTermsCard,
     TodaysTicketsCard,
     TotalTicketsCard
 } from "@/features/(dashboard)";
@@ -27,7 +26,6 @@ export default function DashboardPage() {
                 <EmotionsChart />
                 <CategoryChart />
                 <AverageTimeHandlingChart />
-                <FrequentTermsCard />
             </div>
         </div>
     )
