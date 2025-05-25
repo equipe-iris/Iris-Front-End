@@ -10,6 +10,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "./popover"
 import { toast } from "sonner";
 import { ChevronDown, LogOut, UserPen } from "lucide-react"
 import { UserProfile } from "@/features/users/components/user-profile";
+import { SemanticSearchInput } from "@/features/semantic-search/components/semantic-search-input";
 
 function Header() {
 
@@ -31,12 +32,15 @@ function Header() {
     return (
         <>
             <header className="bg-white w-full px-12 py-4 flex items-center justify-between border-b border-zinc-200">
-                <Image
-                    src="/logo-iris.svg"
-                    alt="Íris"
-                    width={105}
-                    height={36}
-                />
+                <div className="flex items-start gap-20">
+                    <Image
+                        src="/logo-iris.svg"
+                        alt="Íris"
+                        width={105}
+                        height={36}
+                    />
+                    <SemanticSearchInput />
+                </div>
                 <div className="flex gap-4">
                     <Image
                         src="/avatar.svg"
