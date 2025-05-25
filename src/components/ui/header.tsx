@@ -49,7 +49,7 @@ function Header() {
                         <div className="">
                             <Popover>
                                 <PopoverTrigger className="flex items-end gap-1 cursor-pointer">
-                                    <span className="text-sm font-bold text-zinc-800">{user?.name ?? "Nome do usuário"}</span>
+                                    <span className="text-sm font-bold text-zinc-800 max-w-[100px] truncate">{user?.name ?? "Nome do usuário"}</span>
                                     <ChevronDown size={16} className="" />
                                 </PopoverTrigger>
                                 <PopoverContent className="w-[--radix-popover-trigger-width] min-w-[150px]">

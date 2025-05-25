@@ -1,5 +1,21 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/utils";
+import { View } from "lucide-react";
+import { Tooltip, TooltipTrigger, TooltipContent } from "./ui/tooltip";
+
+
+export function TicketTitleCell({ value }: { value: string }) {
+    return (
+        <Tooltip delayDuration={700}>
+            <TooltipTrigger asChild><p className="truncate w-full cursor-default">{value}</p></TooltipTrigger>
+            <TooltipContent><p className="text-base">{value}</p></TooltipContent>
+        </Tooltip>
+    );
+}
+
+// ---------------------------------
+
 
 const categoryBadgeClass: Record<string, { text: string; color: string }> = {
     "duvida": { text: "Dúvida", color: "bg-amber-500" },
@@ -41,4 +57,24 @@ export function TicketStartDateCell({ value }: { value: string }) {
 
 export function TicketStatusCell({ value }: { value: string | undefined }) {
     return <p>{value ? "Fechado" : "Aberto"}</p>;
+}
+
+// ---------------------------------
+
+export function ViewTicketCell({ value }: { value: number }) {
+    return (
+        <Tooltip delayDuration={700}>
+            <TooltipTrigger>
+                <Link
+                    href={`/app/tickets/${value}`}
+                    className="text-zinc-500 hover:text-zinc-600 font-medium transition-colors"
+                >
+                    <View className="size-4" />
+                </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+                <p>Visualizar</p>
+            </TooltipContent>
+        </Tooltip>
+    );
 }
