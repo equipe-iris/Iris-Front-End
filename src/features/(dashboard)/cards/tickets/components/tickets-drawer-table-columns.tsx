@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { TicketCategoryCell, TicketEmotionCell, TicketStartDateCell } from "@/components/tickets-table-cells";
+import { TicketCategoryCell, TicketEmotionCell, TicketStartDateCell, TicketTitleCell, ViewTicketCell } from "@/components/tickets-table-cells";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { Ticket } from "@/types/api";
@@ -10,12 +10,16 @@ export const columns: ColumnDef<Ticket>[] = [
     {
         accessorKey: "original_id",
         header: "ID",
-        size: 75,
+        size: 100,
     },
     {
         accessorKey: "title",
         header: "Título",
-        size: 200
+        size: 200,
+        cell: ({ cell }) => {
+            const title = cell.getValue<string>();
+            return <TicketTitleCell value={title} />;
+        }
     },
     {
         accessorKey: "service_rating",
@@ -65,7 +69,16 @@ export const columns: ColumnDef<Ticket>[] = [
         },
         cell: ({ cell }) => {
             const startDate = cell.getValue<string>();
-            return <TicketStartDateCell value={startDate}/>;
+            return <TicketStartDateCell value={startDate} />;
+        }
+    },
+    {
+        accessorKey: "id",
+        header: "",
+        size: 75,
+        cell: ({ cell }) => {
+            const id = cell.getValue<number>();
+            return <ViewTicketCell value={id} />
         }
     }
 ]

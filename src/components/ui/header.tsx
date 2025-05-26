@@ -10,6 +10,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "./popover"
 import { toast } from "sonner";
 import { ChevronDown, LogOut, UserPen } from "lucide-react"
 import { UserProfile } from "@/features/users/components/user-profile";
+import { SemanticSearchInput } from "@/features/semantic-search/components/semantic-search-input";
 
 function Header() {
 
@@ -31,12 +32,17 @@ function Header() {
     return (
         <>
             <header className="bg-white w-full px-12 py-4 flex items-center justify-between border-b border-zinc-200">
-                <Image
-                    src="/logo-iris.svg"
-                    alt="Íris"
-                    width={105}
-                    height={36}
-                />
+                <div className="flex items-start gap-20">
+                    <Image
+                        src="/logo-iris.svg"
+                        alt="Íris"
+                        width={105}
+                        height={36}
+                    />
+                    <div className="hidden lg:inline">
+                        <SemanticSearchInput />
+                    </div>
+                </div>
                 <div className="flex gap-4">
                     <Image
                         src="/avatar.svg"
@@ -49,7 +55,7 @@ function Header() {
                         <div className="">
                             <Popover>
                                 <PopoverTrigger className="flex items-end gap-1 cursor-pointer">
-                                    <span className="text-sm font-bold text-zinc-800">{user?.name ?? "Nome do usuário"}</span>
+                                    <span className="text-sm font-bold text-zinc-800 max-w-[100px] truncate">{user?.name ?? "Nome do usuário"}</span>
                                     <ChevronDown size={16} className="" />
                                 </PopoverTrigger>
                                 <PopoverContent className="w-[--radix-popover-trigger-width] min-w-[150px]">
@@ -75,6 +81,9 @@ function Header() {
                     </div>
                 </div>
             </header>
+            <div className="p-2 lg:hidden">
+                <SemanticSearchInput />
+            </div>
             <UserProfile open={openProfile} onOpenChange={setOpenProfile} userId={user?.id} />
         </>
     )

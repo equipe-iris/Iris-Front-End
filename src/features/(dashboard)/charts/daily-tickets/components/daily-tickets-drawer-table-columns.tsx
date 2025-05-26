@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { TicketCategoryCell, TicketEmotionCell, TicketStatusCell } from "@/components/tickets-table-cells";
+import { TicketCategoryCell, TicketEmotionCell, TicketStatusCell, TicketTitleCell, ViewTicketCell } from "@/components/tickets-table-cells";
 import { Ticket } from "@/types/api";
 
 
@@ -7,12 +7,16 @@ export const columns: ColumnDef<Ticket>[] = [
     {
         accessorKey: "original_id",
         header: "ID",
-        size: 75,
+        size: 100,
     },
     {
         accessorKey: "title",
         header: "Título",
-        size: 180
+        size: 180,
+        cell: ({ cell }) => {
+            const title = cell.getValue<string>();
+            return <TicketTitleCell value={title} />;
+        }
     },
     {
         accessorKey: "service_rating",
@@ -42,4 +46,13 @@ export const columns: ColumnDef<Ticket>[] = [
         }
 
     },
+    {
+        accessorKey: "id",
+        header: "",
+        size: 75,
+        cell: ({ cell }) => {
+            const id = cell.getValue<number>();
+            return <ViewTicketCell value={id} />
+        }
+    }
 ]

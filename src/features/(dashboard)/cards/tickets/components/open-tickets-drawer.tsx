@@ -25,7 +25,7 @@ export function OpenTicketsDrawer({ open, onOpenChange, start_date, end_date }: 
 
     return (
         <Drawer open={open} onOpenChange={onOpenChange} direction="right">
-            <DrawerContent className="min-w-[1000px] w-fit p-8 flex flex-col gap-10">
+            <DrawerContent className="min-w-[600px] md:min-w-[700px] lg:min-w-[1000px] w-fit p-8 flex flex-col gap-10">
                 <DrawerHeader className="p-0">
                     <DrawerTitle>Chamados em aberto</DrawerTitle>
                     <DrawerDescription>

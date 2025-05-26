@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { format, parseISO, subDays } from "date-fns";
+import { differenceInMinutes, format, parseISO, subDays } from "date-fns";
 
 import { DateRange, TimeRange } from "@/types/api";
 
@@ -55,18 +55,44 @@ export function formatBytes(
   const accurateSizes = ["Bytes", "KiB", "MiB", "GiB", "TiB"]
   if (bytes === 0) return "0 Byte"
   const i = Math.floor(Math.log(bytes) / Math.log(1024))
-  return `${(bytes / Math.pow(1024, i)).toFixed(decimals)} ${
-    sizeType === "accurate"
+  return `${(bytes / Math.pow(1024, i)).toFixed(decimals)} ${sizeType === "accurate"
       ? (accurateSizes[i] ?? "Bytes")
       : (sizes[i] ?? "Bytes")
-  }`
+    }`
 }
 
-export function formatDateTime(dateString: string): string {
+export function formatDateTime(dateString: string | undefined): string {
+  if (!dateString) return "";
+
   const date = parseISO(dateString);
   return format(date, "dd/MM/yyyy HH:mm");
 }
 
 export function sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function formatTicketHandlingTime(startDate?: string | Date, endDate?: string | Date): string {
+  if (!startDate || !endDate) return "-";
+
+  const start = typeof startDate === "string" ? parseISO(startDate) : startDate;
+  const end = typeof endDate === "string" ? parseISO(endDate) : endDate;
+  const minutes = differenceInMinutes(end, start);
+
+  const hours = Math.floor(minutes / 60);
+  const mins = Math.round(minutes % 60);
+
+  if (hours > 0) {
+    return `${hours}h${mins.toString().padStart(2, "0")}m`;
+  } else {
+    return `${mins.toString().padStart(2, "0")}m`;
+  }
+}
+
+export function splitTicketMessages(content: string): string[] {
+  if (!content) return [];
+  return content
+    .split("|")
+    .map(msg => msg.trim())
+    .filter(msg => msg.length > 0);
 }

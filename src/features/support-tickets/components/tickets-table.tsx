@@ -1,7 +1,7 @@
 "use client";
 
 import { useTickets } from "@/features/support-tickets/api/get-tickets";
-import { columns } from "./tickets-table-columns";
+import { columns } from "@/features/support-tickets/components/tickets-table-columns";
 
 import { DataTable } from "@/components/data-table";
 import { Skeleton } from "@/components/ui/skeleton";

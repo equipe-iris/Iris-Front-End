@@ -60,7 +60,7 @@ export function EmotionsChart() {
 
     if (emotionsQuery.isLoading || emotionsQuery.isFetching) {
         return (
-            <Card className="flex flex-col col-span-3 row-span-4">
+            <Card className="flex flex-col col-span-10 row-span-4 lg:col-span-3">
                 <CardHeader className="items-center pb-0">
                     <Skeleton className="h-6 w-1/3" />
                 </CardHeader>
@@ -78,7 +78,7 @@ export function EmotionsChart() {
 
     if (isEmpty) {
         return (
-            <Card className="flex flex-col rounded-lg shadow-lg col-span-3 row-span-4">
+            <Card className="flex flex-col rounded-lg shadow-lg col-span-10 row-span-4 lg:col-span-3">
                 <CardHeader className="flex flex-col gap-3">
                     <CardTitle>Emoções nos chamados</CardTitle>
                     <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
@@ -112,7 +112,7 @@ export function EmotionsChart() {
 
     return (
         <>
-            <Card className="flex flex-col col-span-3 row-span-4">
+            <Card className="flex flex-col col-span-10 row-span-4 lg:col-span-3">
                 <CardHeader className="flex flex-col gap-3">
                     <CardTitle>Emoções nos chamados</CardTitle>
                     <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>

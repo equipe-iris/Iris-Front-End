@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { TicketCategoryCell, TicketStartDateCell, TicketStatusCell } from "@/components/tickets-table-cells";
+import { TicketCategoryCell, TicketStartDateCell, TicketStatusCell, TicketTitleCell, ViewTicketCell } from "@/components/tickets-table-cells";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { Ticket } from "@/types/api";
@@ -10,17 +10,21 @@ export const columns: ColumnDef<Ticket>[] = [
     {
         accessorKey: "original_id",
         header: "ID",
-        size: 75,
+        size: 100,
     },
     {
         accessorKey: "title",
         header: "Título",
-        size: 150
+        size: 175,
+        cell: ({ cell }) => {
+            const title = cell.getValue<string>();
+            return <TicketTitleCell value={title} />;
+        }
     },
     {
         accessorKey: "service_rating",
         header: "Categoria",
-        size: 100,
+        size: 125,
         cell: ({ cell }) => {
             const category = cell.getValue<string>();
             return <TicketCategoryCell value={category} />;
@@ -56,16 +60,26 @@ export const columns: ColumnDef<Ticket>[] = [
         },
         cell: ({ cell }) => {
             const startDate = cell.getValue<string>();
-            return <TicketStartDateCell value={startDate}/>;
+            return <TicketStartDateCell value={startDate} />;
         }
     },
     {
         accessorKey: "end_date",
         header: "Status",
+        size: 100,
         cell: ({ cell }) => {
             const endDate = cell.getValue<string | undefined>();
             return <TicketStatusCell value={endDate} />;
         }
 
     },
+    {
+        accessorKey: "id",
+        header: "",
+        size: 75,
+        cell: ({ cell }) => {
+            const id = cell.getValue<number>();
+            return <ViewTicketCell value={id} />
+        }
+    }
 ]
