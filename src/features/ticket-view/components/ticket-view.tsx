@@ -8,6 +8,7 @@ import { CircleHelp, Sparkles } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BackButton } from "@/components/back-button";
+import { toast } from "sonner";
 
 interface TicketViewProps {
     ticketId: string | number;
@@ -35,10 +36,22 @@ export function TicketView({ ticketId }: TicketViewProps) {
         );
     }
 
+    if (ticketDetailsQuery.isError) {
+        toast.error("Erro ao carregar os detalhes do chamado");
+        return (
+            <div className="flex flex-col gap-4">
+                <BackButton />
+                <div className="flex items-center justify-center h-96">
+                    <p className="text-zinc-600">Erro ao carregar os detalhes do chamado. Tente novamente</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="flex flex-col gap-3">
             <BackButton />
-            <div className="bg-white flex flex-col gap-12 rounded-xl p-10 shadow-sm">
+            <div className="bg-white flex flex-col gap-12 rounded-xl p-4 md:p-8 lg:p-10 shadow-sm">
                 <div className="flex flex-col gap-6">
                     <div className="flex items-center gap-10">
                         <div className="flex items-center gap-2 text-2xl">
@@ -50,17 +63,17 @@ export function TicketView({ ticketId }: TicketViewProps) {
                     <div className="flex flex-col gap-2">
                         <div className="flex items-center gap-1 text-sm font-medium">
                             <span className="text-zinc-500 min-w-[84px]">Aberto em:</span>
-                            <span className="text-zinc-700">{formatDateTime(ticketDetails?.start_date)}</span>
+                            <span className="text-zinc-700 break-words">{formatDateTime(ticketDetails?.start_date)}</span>
                         </div>
                         {ticketDetails?.end_date && (
                             <div className="flex flex-col gap-2">
                                 <div className="flex items-center gap-1 text-sm font-medium">
                                     <span className="text-zinc-500 min-w-[84px]">Fechado em:</span>
-                                    <span className="text-zinc-700">{formatDateTime(ticketDetails?.end_date)}</span>
+                                    <span className="text-zinc-700 break-words">{formatDateTime(ticketDetails?.end_date)}</span>
                                 </div>
                                 <div className="flex items-center gap-1 text-sm font-medium">
                                     <span className="text-zinc-500 min-w-[84px]">Tempo para encerramento:</span>
-                                    <span className="text-zinc-700">
+                                    <span className="text-zinc-700 break-words">
                                         {formatTicketHandlingTime(ticketDetails.start_date, ticketDetails.end_date)}
                                     </span>
                                 </div>
@@ -69,7 +82,7 @@ export function TicketView({ ticketId }: TicketViewProps) {
                         {ticketDetails?.in_charge && (
                             <div className="flex items-center gap-1 text-sm font-medium">
                                 <span className="text-zinc-500 min-w-[84px]">Responsável:</span>
-                                <span className="text-zinc-700">{ticketDetails.in_charge}</span>
+                                <span className="text-zinc-700 break-words">{ticketDetails.in_charge}</span>
                             </div>
                         )}
                         <div className="mt-8 flex flex-col gap-2">
@@ -85,7 +98,7 @@ export function TicketView({ ticketId }: TicketViewProps) {
                     </div>
                 </div>
                 <hr />
-                <div className="flex flex-col gap-15">
+                <div className="flex flex-col gap-8 md:gap-12">
                     <div className="flex flex-col gap-6">
                         <div className="flex items-center gap-2 text-xl font-semibold">
                             <span className="bg-gradient-to-r from-indigo-500 to-teal-500 bg-clip-text text-transparent">Resumo</span>
@@ -101,7 +114,7 @@ export function TicketView({ ticketId }: TicketViewProps) {
                             </Tooltip>
                         </div>
                         <div className="p-10 text-center rounded-lg bg-zinc-50 border border-zinc-100">
-                            <p className="text-zinc-600 text-sm">
+                            <p className="text-zinc-600 text-sm break-words">
                                 {ticketDetails?.summary ? ticketDetails.summary : "Nenhum resumo disponível."}
                             </p>
                         </div>
@@ -109,7 +122,7 @@ export function TicketView({ ticketId }: TicketViewProps) {
                     <div className="flex flex-col gap-6">
                         <span className="text-xl font-semibold text-zinc-700">Conteúdo</span>
                         <div className="p-10 rounded-lg bg-zinc-50 border border-zinc-100">
-                            <p className="text-zinc-600 text-sm">
+                            <p className="text-zinc-600 text-sm break-words">
                                 {firstMessage ? firstMessage : ""}
                             </p>
                         </div>
@@ -119,7 +132,7 @@ export function TicketView({ ticketId }: TicketViewProps) {
                                 <div className="flex flex-col gap-10 overflow-y-auto min-h-0 max-h-[280px]">
                                     {messages.slice(1).map((message, index) => (
                                         <div key={index} className="p-10 rounded-lg bg-zinc-50 border border-zinc-100">
-                                            <p className="text-zinc-600 text-sm mb-4">
+                                            <p className="text-zinc-600 text-sm mb-4 break-words">
                                                 {message}
                                             </p>
                                         </div>

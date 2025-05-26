@@ -1,15 +1,19 @@
 import { TicketView } from "@/features/ticket-view/components/ticket-view";
-import { Metadata } from "next"
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Íris - Visualização de chamado",
-}
+};
 
-export default async function TicketsViewPage({ params }: { params: { id: string } }) {
+type Props = {
+    params: Promise<{ id: string }>;
+    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
+export default async function TicketsViewPage({ params }: Props) {
     const { id } = await params;
 
     return (
         <TicketView ticketId={id} />
-    )
+    );
 }

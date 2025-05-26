@@ -43,7 +43,7 @@ export function TodaysTicketsCard() {
 
     if (ticketsQuery.isLoading) {
         return (
-            <Card className="col-span-3 row-span-2 flex px-8 py-4 gap-8 justify-center">
+            <Card className="col-span-10 row-span-4 lg:col-span-5 lg:row-span-2 xl:col-span-3 flex px-8 py-4 gap-8 justify-center">
                 <div className="flex flex-col gap-5">
                     <Skeleton className="h-10 w-35" />
                     <Skeleton className="h-10 w-10" />
@@ -54,7 +54,7 @@ export function TodaysTicketsCard() {
 
     return (
         <>
-            <Card className="col-span-3 row-span-2 flex px-8 py-6 gap-8 justify-center">
+            <Card className="col-span-10 row-span-4 lg:col-span-5 lg:row-span-2 xl:col-span-3 flex px-8 py-6 gap-8 justify-center">
                 <div className="flex gap-5 ">
                     <Calendar size={40} color="#4f46e5" className="px-[10px] py-3 bg-indigo-500/15 rounded-full" />
                     <div className="flex flex-col gap-5 w-full">

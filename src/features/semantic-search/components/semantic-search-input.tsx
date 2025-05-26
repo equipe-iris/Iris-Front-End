@@ -22,7 +22,7 @@ export function SemanticSearchInput() {
         <form onSubmit={handleSearch}>
             <div className="flex items-center gap-4">
                 <Input
-                    className="w-[600px] border-none shadow-none bg-zinc-100/70"
+                    className="w-full lg:w-[400px] xl:w-[600px] border-none shadow-none bg-zinc-100/70"
                     placeholder="Realizar uma busca na base de dados..."
                     value={query}
                     onChange={e => setQuery(e.target.value)}

@@ -50,7 +50,7 @@ function CategoryChart() {
 
     if (ticketsCategoriesQuery.isLoading) {
         return (
-            <Card className="flex flex-col rounded-lg shadow-lg col-span-3 row-span-4">
+            <Card className="flex flex-col rounded-lg shadow-lg col-span-10 row-span-4 lg:col-span-3">
                 <CardHeader className="items-center pb-0">
                     <Skeleton className="h-8 w-1/3" />
                 </CardHeader>
@@ -68,7 +68,7 @@ function CategoryChart() {
 
     if (isEmpty) {
         return (
-            <Card className="flex flex-col rounded-lg shadow-lg col-span-3 row-span-4">
+            <Card className="flex flex-col rounded-lg shadow-lg col-span-10 row-span-4 lg:col-span-3">
                 <CardHeader className="flex flex-col gap-3">
                     <CardTitle>Categorização dos chamados</CardTitle>
                     <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>
@@ -102,7 +102,7 @@ function CategoryChart() {
 
     return (
         <>
-            <Card className="flex flex-col rounded-lg shadow-lg col-span-3 row-span-4">
+            <Card className="flex flex-col rounded-lg shadow-lg col-span-10 row-span-4 lg:col-span-3">
                 <CardHeader className="flex flex-col gap-3">
                     <CardTitle>Categorização dos chamados</CardTitle>
                     <Select value={timeRange} onValueChange={(val) => setTimeRange(val as TimeRange)}>

@@ -39,7 +39,9 @@ function Header() {
                         width={105}
                         height={36}
                     />
-                    <SemanticSearchInput />
+                    <div className="hidden lg:inline">
+                        <SemanticSearchInput />
+                    </div>
                 </div>
                 <div className="flex gap-4">
                     <Image
@@ -79,6 +81,9 @@ function Header() {
                     </div>
                 </div>
             </header>
+            <div className="p-2 lg:hidden">
+                <SemanticSearchInput />
+            </div>
             <UserProfile open={openProfile} onOpenChange={setOpenProfile} userId={user?.id} />
         </>
     )

@@ -25,7 +25,7 @@ export function EmotionEvolutionDrawer({ open, onOpenChange, start_date }: Emoti
 
     return (
         <Drawer open={open} onOpenChange={onOpenChange} direction="right">
-            <DrawerContent className="min-w-[1000px] w-fit p-8 flex flex-col gap-10">
+            <DrawerContent className="min-w-[600px] md:min-w-[700px] lg:min-w-[1000px] w-fit p-8 flex flex-col gap-10">
                 <DrawerHeader className="p-0">
                     <DrawerTitle>Emoções dos chamados</DrawerTitle>
                     <DrawerDescription>

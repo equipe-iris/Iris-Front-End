@@ -87,7 +87,7 @@ export function EmotionEvolutionChart() {
 
     if (emotionTrendQuery.isLoading || emotionTrendQuery.isFetching) {
         return (
-            <Card className="flex flex-col col-span-7 row-span-4">
+            <Card className="flex flex-col col-span-10 row-span-4 lg:col-span-7 ">
                 <CardHeader className="items-center pb-0">
                     <Skeleton className="h-6 w-1/3" />
                     <Skeleton className="h-6 w-1/2" />
@@ -106,7 +106,7 @@ export function EmotionEvolutionChart() {
 
     if (isEmpty) {
         return (
-            <Card className="flex flex-col col-span-7 row-span-4">
+            <Card className="flex flex-col col-span-10 row-span-4 lg:col-span-7 ">
                 <CardHeader className="flex items-center justify-between pb-0">
                     <div className="grid gap-1">
                         <CardTitle>Tendência de emoções nos chamados</CardTitle>
@@ -143,7 +143,7 @@ export function EmotionEvolutionChart() {
 
     return (
         <>
-            <Card className="col-span-7 row-span-4">
+            <Card className="col-span-10 row-span-4 lg:col-span-7 ">
                 <CardHeader className="flex items-center justify-between pb-0">
                     <div className="grid gap-1">
                         <CardTitle>Tendência de emoções nos chamados</CardTitle>
