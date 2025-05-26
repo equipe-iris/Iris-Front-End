@@ -4,11 +4,22 @@ export interface CategoryChartData {
     fill?: string
 }
 
-export interface EmotionScoreChartData {
-    date?: string
-    score: number
-    ticket_count?: number
+export interface EmotionsChartData {
+    emotion: string
+    quantity: number
     fill?: string
+}
+
+export interface EmotionEvolutionData {
+    date: string
+    positivo: number
+    neutro: number
+    negativo: number
+}
+
+export interface DailyTicketsData {
+    date: string
+    quantity: number
 }
 
 export interface AHTChartData {
@@ -17,8 +28,9 @@ export interface AHTChartData {
 }
 
 export interface TicketCardsData {
-    total_tickets: number
-    tickets_today: number
+    total: number
+    open: number
+    closed: number
 }
 
 export interface FrequentTermsData {

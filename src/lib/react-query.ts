@@ -3,9 +3,9 @@ import { DefaultOptions, UseMutationOptions } from "@tanstack/react-query";
 
 export const queryConfig = {
     queries: {
-        refetchInterval: 1000 * 60 * 2, // 2 minutes
+        refetchInterval: 1000 * 60 * 5, // 5 minutes
         retry: false,
-        staleTime: 1000 * 60 * 2
+        staleTime: 1000 * 60 * 5
     }
 } satisfies DefaultOptions
 

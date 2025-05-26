@@ -13,7 +13,7 @@ function BackButton() {
         <Button
             variant="ghost"
             onClick={() => router.back()}
-            className="font-medium text-base text-zinc-800 flex items-center"
+            className="font-medium text-base text-zinc-800 flex items-center w-fit"
         >
             <MoveLeft size={20} className="mr-1" />
             Voltar

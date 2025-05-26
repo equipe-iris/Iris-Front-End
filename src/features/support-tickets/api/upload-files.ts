@@ -4,13 +4,16 @@ import { z } from 'zod';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { getPendingFilesQueryOptions } from './get-pending-files';
-import { getTodayTicketsQueryOptions } from '@/features/(dashboard)/cards/tickets/api/get-today-tickets';
+import { getTicketsByDateQueryOptions } from '@/features/(dashboard)/cards/tickets/api/get-tickets-by-date';
 import { getTotalTicketsQueryOptions } from '@/features/(dashboard)/cards/tickets/api/get-total-tickets';
 import { getAHTQueryOptions } from '@/features/(dashboard)/charts/average-time-handling/api/get-average-time-handling';
 import { getTicketsCategorizationQueryOptions } from '@/features/(dashboard)/charts/categorization/api/get-tickets-categorization';
-import { getEmotionScoreQueryOptions } from '@/features/(dashboard)/charts/emotion-score/api/get-emotion-score';
-import { getEmotionScoreEvolutionQueryOptions } from '@/features/(dashboard)/charts/emotion-score/api/get-emotion-score-evolution';
+import { getEmotionsQueryOptions } from '@/features/(dashboard)/charts/emotions/api/get-emotions';
+import { getEmotionEvolutionQueryOptions } from '@/features/(dashboard)/charts/emotions/api/get-emotion-evolution';
 import { getTicketsQueryOptions } from './get-tickets';
+import { getProcessedFilesQueryOptions } from './get-processed-files';
+import { getToday, sleep } from '@/lib/utils';
+import { getDailyTicketsQueryOptions } from '@/features/(dashboard)/charts/daily-tickets/api/get-daily-tickets';
 
 
 export const ticketsUploadSchema = z.object({
@@ -38,22 +41,29 @@ export const useUploadTicketsFile = ({ mutationConfig }: UploadTicketsFileOption
 
 
     return useMutation({
-        onSuccess: (...args) => {
-            [
+        onMutate: async () => {
+            await sleep(10000);
+            await queryClient.invalidateQueries({ queryKey: getPendingFilesQueryOptions().queryKey });
+        },
+        onSuccess: async (...args) => {
+            const today = getToday()
+            const queriesToInvalidate = [
                 getPendingFilesQueryOptions(),
-                getTodayTicketsQueryOptions(),
+                getProcessedFilesQueryOptions(),
+                getTicketsByDateQueryOptions(today),
                 getTotalTicketsQueryOptions(),
-                getAHTQueryOptions("7d"),
-                getTicketsCategorizationQueryOptions(),
-                getEmotionScoreQueryOptions("today"),
-                getEmotionScoreEvolutionQueryOptions("7d"),
-                getTicketsQueryOptions()
-            ]
-                .forEach((queryOptions) => {
-                    queryClient.refetchQueries({
-                        queryKey: queryOptions.queryKey,
-                    });
-                });
+                getAHTQueryOptions(12),
+                getTicketsCategorizationQueryOptions("all"),
+                getEmotionsQueryOptions("all"),
+                getEmotionEvolutionQueryOptions("90d"),
+                getTicketsQueryOptions(),
+                getDailyTicketsQueryOptions("90d"),
+            ];
+            await Promise.all(
+                queriesToInvalidate.map((queryOptions) => {
+                    queryClient.invalidateQueries({ queryKey: queryOptions.queryKey });
+                })
+            );
             onSuccess?.(...args);
         },
         ...restConfig,

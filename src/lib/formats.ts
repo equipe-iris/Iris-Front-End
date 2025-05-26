@@ -1,4 +1,4 @@
-import { CategoryChartData, EmotionScoreChartData } from "@/types/charts";
+import { CategoryChartData, EmotionsChartData } from "@/types/charts";
 
 function formatToCategoryChart(data: CategoryChartData[] | undefined): CategoryChartData[] {
     if (!data || data == undefined) return [];
@@ -12,13 +12,16 @@ function formatToCategoryChart(data: CategoryChartData[] | undefined): CategoryC
 
 }
 
-function formatToEmotionScoreChart(data: EmotionScoreChartData): EmotionScoreChartData[] {
-    return [{
-        date: data.date,
-        score: data.score,
-        ticket_count: data.ticket_count,
-        fill: `var(--color-score)`
-    }];
+function formatToEmotionsChart(data: EmotionsChartData[] | undefined): EmotionsChartData[] {
+    if (!data || data == undefined) return [];
+
+    return data
+        .map(item => ({
+            emotion: item.emotion,
+            quantity: item.quantity,
+            fill: `var(--color-${item.emotion})`
+        }));
+
 }
 
-export { formatToCategoryChart, formatToEmotionScoreChart };
+export { formatToCategoryChart, formatToEmotionsChart };
