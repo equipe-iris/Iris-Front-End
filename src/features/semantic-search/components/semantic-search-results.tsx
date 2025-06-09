@@ -7,6 +7,8 @@ import { useSemanticSearch } from "../api/semantic-search";
 import { SemanticSearchCard } from "./semantic-search-card";
 
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { sortTicketsBySimilarity } from "@/lib/utils";
 
 export function SemanticSearchResults() {
     const searchParams = useSearchParams();
@@ -34,16 +36,26 @@ export function SemanticSearchResults() {
     }, [query]);
 
     const tickets = semanticSearchQuery.data || [];
+    const sortedTickets = sortTicketsBySimilarity(tickets);
+    const ticketsCount = tickets.length;
+
+    if (semanticSearchQuery.isPending) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <Loader2 className="size-10 animate-spin text-zinc-700" />
+            </div>
+        );
+    }
 
     return (
         <div>
             <h1 className="font-medium text-zinc-700">
-                Exibindo resultados para:
+                Exibindo {ticketsCount} resultados para:
                 <span className="font-semibold text-zinc-800"> &quot;{query}&quot;</span>
             </h1>
 
             <div className="flex flex-col gap-4 mt-8">
-                {tickets.map((ticket, index) => (
+                {sortedTickets.map((ticket, index) => (
                     <SemanticSearchCard ticket={ticket} key={index} />
                 ))}
             </div>

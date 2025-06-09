@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { TicketCategoryCell } from "@/components/tickets-table-cells";
 
-import { formatDateTime, splitTicketMessages } from "@/lib/utils";
+import { formatDateTime, formatPercentage, splitTicketMessages, truncateText } from "@/lib/utils";
 import { Ticket } from "@/types/api";
 
 interface SemanticSearchCardProps {
@@ -14,11 +14,12 @@ interface SemanticSearchCardProps {
 export function SemanticSearchCard({ ticket }: SemanticSearchCardProps) {
 
     const router = useRouter();
-    const contentPreview = splitTicketMessages(ticket.content || "");
+    const contentMessages = splitTicketMessages(ticket.content || "");
+    const contentPreview = truncateText(contentMessages.join(" "), 200);
 
     return (
         <div className="flex flex-col gap-1">
-            <span className="text-sm font-medium text-zinc-500">Similaridade: {ticket.score}</span>
+            <span className="text-sm font-medium text-zinc-500">Similaridade: {formatPercentage(ticket.score)}</span>
             <div
                 className="flex flex-col md:flex-row gap-4 md:gap-10 justify-between bg-white rounded-lg shadow-md p-4 md:p-6 cursor-pointer hover:bg-zinc-50/10 transition-colors"
                 onClick={() => router.push(`/app/tickets/${ticket.id}`)}

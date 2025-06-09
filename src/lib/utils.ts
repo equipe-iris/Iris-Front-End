@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { differenceInMinutes, format, parseISO, subDays } from "date-fns";
 
-import { DateRange, TimeRange } from "@/types/api";
+import { DateRange, Ticket, TimeRange } from "@/types/api";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -56,8 +56,8 @@ export function formatBytes(
   if (bytes === 0) return "0 Byte"
   const i = Math.floor(Math.log(bytes) / Math.log(1024))
   return `${(bytes / Math.pow(1024, i)).toFixed(decimals)} ${sizeType === "accurate"
-      ? (accurateSizes[i] ?? "Bytes")
-      : (sizes[i] ?? "Bytes")
+    ? (accurateSizes[i] ?? "Bytes")
+    : (sizes[i] ?? "Bytes")
     }`
 }
 
@@ -95,4 +95,42 @@ export function splitTicketMessages(content: string): string[] {
     .split("|")
     .map(msg => msg.trim())
     .filter(msg => msg.length > 0);
+}
+
+export function formatPercentage(
+  value: number | undefined | null,
+  opts: {
+    decimals?: number
+    showSymbol?: boolean
+  } = {}
+): string {
+  const { decimals = 2, showSymbol = true } = opts
+
+  if (value === undefined || value === null || isNaN(value)) {
+    return showSymbol ? "0%" : "0"
+  }
+
+  const percentage = (value * 100).toFixed(decimals)
+
+  return showSymbol ? `${percentage}%` : percentage
+}
+
+export function sortTicketsBySimilarity(tickets: Ticket[]): Ticket[] {
+  return [...tickets].sort((a, b) => {
+    const scoreA = a.score ?? 0;
+    const scoreB = b.score ?? 0;
+    return scoreB - scoreA; // Maior para menor
+  });
+}
+
+export function truncateText(
+  text: string,
+  maxLength: number = 150,
+  suffix: string = "..."
+): string {
+  if (!text || text.length <= maxLength) {
+    return text;
+  }
+
+  return text.substring(0, maxLength).trim() + suffix;
 }

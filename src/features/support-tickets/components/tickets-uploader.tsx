@@ -21,8 +21,8 @@ export function TicketsUploader() {
     const uploadTicketsFileMutation = useUploadTicketsFile({
         mutationConfig: {
             onSuccess: () => {
-                toast.success('Chamados importados com sucessso!', {
-                    description: 'Você pode já pode visualizar os resultados.',
+                toast.success('Upload concluído!', {
+                    description: 'Chamados em processamento. Você pode visualizar os resultados em breve.',
                     closeButton: true,
                     duration: Infinity,
                 })

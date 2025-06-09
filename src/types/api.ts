@@ -14,7 +14,7 @@ export interface Ticket {
     content?: string;
     summary?: string;
     in_charge?: string;
-    score?: string;
+    score?: number;
 }
 
 export type TimeRange = "today" | "7d" | "30d" | "90d" | "all"
